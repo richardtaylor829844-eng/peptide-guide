@@ -189,6 +189,51 @@ function dueColor(ms, frequencyHours){
   if (ms < freqMs * 0.15) return "#FCD34D"; // <15% remaining — amber
   return "#5EEAD4"; // plenty of time — teal
 }
+function icsFreqRule(freqId){
+  if (freqId === "daily") return "FREQ=DAILY";
+  if (freqId === "twice-daily") return "FREQ=DAILY;INTERVAL=1";
+  if (freqId === "eod") return "FREQ=DAILY;INTERVAL=2";
+  if (freqId === "3x-week") return "FREQ=WEEKLY;BYDAY=MO,WE,FR";
+  if (freqId === "weekly") return "FREQ=WEEKLY";
+  return "FREQ=DAILY";
+}
+function icsFormatDate(d){
+  var pad = function(n){return (n<10?"0":"")+n;};
+  return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + "00Z";
+}
+function downloadReminder(entry, peptideName){
+  var freqH = freqHours(entry.frequency);
+  var startMs = entry.lastInjection ? entry.lastInjection + freqH*3600*1000 : Date.now() + freqH*3600*1000;
+  // If the computed start is in the past, bump forward by the frequency
+  while (startMs < Date.now()) startMs += freqH*3600*1000;
+  var start = new Date(startMs);
+  var end = new Date(startMs + 15*60*1000); // 15-min event
+  var summary = peptideName + " — " + entry.dose + " " + entry.doseUnit;
+  var desc = "Scheduled from PeptideGuide My Stack." + (entry.notes ? " Notes: " + entry.notes : "");
+  var lines = [
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//PeptideGuide//MyStack//EN","CALSCALE:GREGORIAN",
+    "BEGIN:VEVENT",
+    "UID:"+entry.id+"@peptideguide",
+    "DTSTAMP:"+icsFormatDate(new Date()),
+    "DTSTART:"+icsFormatDate(start),
+    "DTEND:"+icsFormatDate(end),
+    "RRULE:"+icsFreqRule(entry.frequency),
+    "SUMMARY:"+summary.replace(/,/g,"\\,").replace(/\n/g," "),
+    "DESCRIPTION:"+desc.replace(/,/g,"\\,").replace(/\n/g," "),
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+summary.replace(/,/g,"\\,"),"TRIGGER:-PT0M","END:VALARM",
+    "END:VEVENT","END:VCALENDAR"
+  ];
+  var ics = lines.join("\r\n");
+  var blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "peptide-" + entry.pepId + ".ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);}, 1000);
+}
 function Card(props) {
   var isClickable = !!props.onClick;
   var mergedStyle = Object.assign({background:S.card,borderRadius:14,padding:22,border:"1px solid "+S.br,cursor:isClickable?"pointer":"default",transition:"all .2s"},props.style||{});
@@ -737,7 +782,10 @@ export default function App() {
                       </div>
                     </div>
                     {s.notes && <div style={{fontSize:11,color:S.d,fontStyle:"italic",marginBottom:10,padding:"6px 10px",background:S.surf,borderRadius:6}}>{s.notes}</div>}
-                    <button onClick={function(){stackUpdate(s.id,{lastInjection:Date.now()})}} style={{width:"100%",background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600}}>✓ Log injection now</button>
+                    <div style={{display:"grid",gridTemplateColumns:"2fr 1fr",gap:8}}>
+                      <button onClick={function(){stackUpdate(s.id,{lastInjection:Date.now()})}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600}}>✓ Log injection now</button>
+                      <button onClick={function(){downloadReminder(s, p.name)}} title="Add a recurring reminder to your calendar" style={{background:"transparent",border:"1px solid "+S.br,color:S.t,padding:"10px 12px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500,display:"inline-flex",alignItems:"center",justifyContent:"center",gap:5}}>🔔 Remind me</button>
+                    </div>
                   </Card>
                 );
               })}
