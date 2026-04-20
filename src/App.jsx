@@ -490,7 +490,7 @@ export default function App() {
                 <div ref={endRef}/>
               </div>
               <div style={{padding:"12px 14px",borderTop:"1px solid "+S.br,display:"flex",gap:8,alignItems:"flex-end"}}>
-                <textarea value={inp} onChange={function(e){setInp(e.target.value)}} onKeyDown={function(e){if(e.key==="Enter" && !e.shiftKey){e.preventDefault();sendChat()}}} placeholder="Describe what you need help with... (Shift+Enter for new line)" rows={1} style={{flex:1,padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13,outline:"none",resize:"none",minHeight:42,maxHeight:120,lineHeight:1.4}}/>
+                <textarea value={inp} onChange={function(e){setInp(e.target.value)}} onKeyDown={function(e){if(e.key==="Enter" && !e.shiftKey){e.preventDefault();sendChat()}}} placeholder="Describe what you need help with..." rows={1} style={{flex:1,padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13,outline:"none",resize:"none",minHeight:42,maxHeight:120,lineHeight:1.4}}/>
                 <button onClick={sendChat} style={{background:"linear-gradient(135deg,#5EEAD4,#38BDF8)",border:"none",color:"#0B1120",padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600,height:42}}>Send</button>
               </div>
             </Card>
