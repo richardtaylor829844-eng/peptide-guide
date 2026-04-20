@@ -67,6 +67,71 @@ var S = {
   w:"#FCD34D",wb:"rgba(252,211,77,.08)",wbr:"rgba(252,211,77,.15)",
   f:"'Outfit',sans-serif"
 };
+function InstallPrompt() {
+  var dpS = useState(null); var deferredPrompt = dpS[0]; var setDeferredPrompt = dpS[1];
+  var dismissedS = useState(false); var dismissed = dismissedS[0]; var setDismissed = dismissedS[1];
+  var iosModalS = useState(false); var showIOSModal = iosModalS[0]; var setShowIOSModal = iosModalS[1];
+  var installedS = useState(false); var isInstalled = installedS[0]; var setIsInstalled = installedS[1];
+  var isIOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  useEffect(function(){
+    if (typeof window === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) { setIsInstalled(true); return; }
+    if (window.navigator.standalone === true) { setIsInstalled(true); return; }
+    function onBeforeInstall(e){ e.preventDefault(); setDeferredPrompt(e); }
+    window.addEventListener("beforeinstallprompt", onBeforeInstall);
+    return function(){ window.removeEventListener("beforeinstallprompt", onBeforeInstall); };
+  }, []);
+  if (isInstalled || dismissed) return null;
+  if (!deferredPrompt && !isIOS) return null;
+  async function onInstall(){
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      var choice = await deferredPrompt.userChoice;
+      if (choice.outcome === "accepted") setIsInstalled(true);
+      setDeferredPrompt(null);
+    } else if (isIOS) {
+      setShowIOSModal(true);
+    }
+  }
+  return (
+    <div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexWrap:"wrap",padding:"12px 16px",borderRadius:10,background:"linear-gradient(135deg,rgba(94,234,212,.08),rgba(56,189,248,.08))",border:"1px solid "+S.abr,marginBottom:14}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,flex:1,minWidth:200}}>
+          <span style={{fontSize:20}}>📱</span>
+          <div>
+            <div style={{fontSize:13,fontWeight:600,color:S.t}}>Install PeptideGuide on your phone</div>
+            <div style={{fontSize:11,color:S.d}}>One tap. No app store. Opens full-screen from your home screen.</div>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:6,alignItems:"center"}}>
+          <button onClick={onInstall} style={{background:"linear-gradient(135deg,#5EEAD4,#38BDF8)",border:"none",color:"#0B1120",padding:"8px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>Install</button>
+          <button onClick={function(){setDismissed(true)}} title="Dismiss" style={{background:"transparent",border:"none",color:S.m,cursor:"pointer",padding:"6px 10px",fontSize:16,lineHeight:1}}>×</button>
+        </div>
+      </div>
+      {showIOSModal && (
+        <div onClick={function(){setShowIOSModal(false)}} style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,.65)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:200,padding:20}}>
+          <div onClick={function(e){e.stopPropagation()}} style={{background:S.card,borderRadius:14,padding:24,maxWidth:380,width:"100%",border:"1px solid "+S.abr}}>
+            <div style={{fontSize:32,marginBottom:8,textAlign:"center"}}>📱</div>
+            <h3 style={{fontSize:18,fontWeight:700,margin:"0 0 4px",textAlign:"center",color:S.t}}>Install on iPhone</h3>
+            <p style={{fontSize:12,color:S.d,marginBottom:18,textAlign:"center"}}>iPhone needs three quick taps — Apple doesn't let apps install themselves.</p>
+            <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:18}}>
+              {[{n:"1",t:"Tap the Share button",s:"The square with an arrow pointing up, at the bottom of Safari."},{n:"2",t:"Scroll and tap \"Add to Home Screen\"",s:"It's in the menu that slides up."},{n:"3",t:"Tap Add (top right)",s:"PeptideGuide will appear on your home screen like an app."}].map(function(step){
+                return <div key={step.n} style={{display:"flex",gap:12,alignItems:"flex-start"}}>
+                  <div style={{width:24,height:24,borderRadius:12,background:S.ab,color:S.a,fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{step.n}</div>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:600,color:S.t,marginBottom:2}}>{step.t}</div>
+                    <div style={{fontSize:11,color:S.d,lineHeight:1.4}}>{step.s}</div>
+                  </div>
+                </div>;
+              })}
+            </div>
+            <button onClick={function(){setShowIOSModal(false)}} style={{width:"100%",background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600}}>Got it</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 function Card(props) {
   var isClickable = !!props.onClick;
   var mergedStyle = Object.assign({background:S.card,borderRadius:14,padding:22,border:"1px solid "+S.br,cursor:isClickable?"pointer":"default",transition:"all .2s"},props.style||{});
@@ -231,6 +296,7 @@ export default function App() {
         {view==="home" && (
           <div>
             <AdSlot compact mb={8}/>
+            <InstallPrompt/>
             <div style={{textAlign:"center",padding:"32px 0 32px"}}>
               <h1 style={{fontSize:30,fontWeight:700,lineHeight:1.2,margin:"0 0 10px"}}>What do you need help with?</h1>
               <p style={{fontSize:15,color:S.d,maxWidth:460,margin:"0 auto"}}>Tap your concern and we'll show you which peptides researchers have studied for it.</p>
