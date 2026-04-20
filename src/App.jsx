@@ -208,6 +208,7 @@ export default function App() {
   var cfS = useState("all"); var catFilter = cfS[0]; var setCatFilter = cfS[1];
   var endRef = useRef(null);
   useEffect(function(){if(endRef.current)endRef.current.scrollIntoView({behavior:"smooth"})},[msgs]);
+  useEffect(function(){window.scrollTo(0,0)},[view,sel,con]);
   var mg = parseFloat(mgStr) || 0;
   var ml = parseFloat(mlStr) || 0;
   var doseRaw = parseFloat(doseStr) || 0;
