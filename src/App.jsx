@@ -9,8 +9,9 @@ var CHAT_ENDPOINT = "https://peptide-proxy.richardtaylor829844.workers.dev";
 //    ConvertKit form URL, Formspree URL, etc.) — see DEPLOY.md
 var EMAIL_ENDPOINT = "https://formspree.io/f/mrerlwak";
 // 3. Your peptide store link (used in ad slots)
-var AD_LINK = "https://vuoriclothing.com/";
-var AD_BRAND = "Vuori";
+var AD_LINK = "https://eksbrand.com/";
+var AD_BRAND = "EKS Brand";
+var AD_LOGO = "https://eksbrand.com/cdn/shop/files/X-Brand-Logo_1600x.png?v=1614298337";
 // ============================================================
 
 var CONCERNS = [
@@ -83,14 +84,14 @@ function AdSlot(props) {
     return (
       <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
         <div style={{fontSize:8,color:S.m,textTransform:"uppercase",letterSpacing:".16em",marginBottom:4,textAlign:"center"}}>Advertisement</div>
-        <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",textDecoration:"none",padding:"12px 18px",borderRadius:8,background:"linear-gradient(135deg,#EFE6D4 0%,#DED0B6 100%)",border:"1px solid rgba(31,41,55,.12)",transition:"all .2s"}}
-          onMouseEnter={function(e){e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow="0 6px 18px rgba(0,0,0,.2)"}}
-          onMouseLeave={function(e){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
-          <div style={{display:"flex",alignItems:"baseline",gap:14,flex:1,minWidth:200}}>
-            <div style={{fontSize:24,fontWeight:400,color:"#1F2937",letterSpacing:"-.03em",lineHeight:1}}>vuori</div>
-            <div style={{fontSize:11,color:"#3B4654",lineHeight:1.4}}>Performance apparel, inspired by the coast.</div>
+        <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",textDecoration:"none",padding:"10px 16px",borderRadius:6,background:"#0A0A0A",border:"1px solid rgba(207,255,5,.35)",transition:"all .2s"}}
+          onMouseEnter={function(e){e.currentTarget.style.borderColor="#CFFF05";e.currentTarget.style.boxShadow="0 0 22px rgba(207,255,5,.18)"}}
+          onMouseLeave={function(e){e.currentTarget.style.borderColor="rgba(207,255,5,.35)";e.currentTarget.style.boxShadow="none"}}>
+          <div style={{display:"flex",alignItems:"center",gap:14,flex:1,minWidth:200,flexWrap:"wrap"}}>
+            <img src={AD_LOGO} alt={AD_BRAND} style={{height:26,width:"auto",display:"block"}}/>
+            <div style={{fontSize:10,color:"#CFFF05",fontWeight:700,letterSpacing:".12em",textTransform:"uppercase"}}>Free shipping over $150</div>
           </div>
-          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#1F2937",color:"#F5EFE5",padding:"8px 16px",borderRadius:2,fontSize:10,fontWeight:600,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".14em"}}>Shop</div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:4,background:"#CFFF05",color:"#0A0A0A",padding:"7px 16px",borderRadius:2,fontSize:10,fontWeight:800,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".18em"}}>Shop →</div>
         </a>
       </div>
     );
@@ -98,24 +99,26 @@ function AdSlot(props) {
   return (
     <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
       <div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".14em",marginBottom:6,textAlign:"center"}}>Advertisement</div>
-      <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"block",textDecoration:"none",padding:"28px 30px",borderRadius:10,background:"linear-gradient(135deg,#EFE6D4 0%,#DED0B6 100%)",border:"1px solid rgba(31,41,55,.12)",transition:"all .2s"}}
-        onMouseEnter={function(e){e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.3)"}}
-        onMouseLeave={function(e){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
+      <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"block",textDecoration:"none",padding:"26px 28px",borderRadius:8,background:"linear-gradient(120deg,#0A0A0A 0%,#141414 55%,#0A0A0A 100%)",border:"1px solid rgba(207,255,5,.35)",transition:"all .2s",position:"relative",overflow:"hidden"}}
+        onMouseEnter={function(e){e.currentTarget.style.borderColor="#CFFF05";e.currentTarget.style.boxShadow="0 0 32px rgba(207,255,5,.15)"}}
+        onMouseLeave={function(e){e.currentTarget.style.borderColor="rgba(207,255,5,.35)";e.currentTarget.style.boxShadow="none"}}>
+        <div style={{position:"absolute",top:0,right:0,width:"45%",height:"100%",background:"linear-gradient(135deg,transparent 40%,rgba(0,229,255,.06) 100%)",pointerEvents:"none"}}/>
+        <div style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:20}}>
           <div style={{flex:1,minWidth:220}}>
-            <div style={{fontSize:10,color:"#5A6B48",letterSpacing:".24em",fontWeight:600,marginBottom:8,textTransform:"uppercase"}}>Performance Apparel</div>
-            <div style={{fontSize:40,fontWeight:400,color:"#1F2937",marginBottom:6,letterSpacing:"-.035em",lineHeight:1}}>vuori</div>
-            <div style={{fontSize:13,color:"#3B4654",marginBottom:14,lineHeight:1.55,maxWidth:420}}>Performance apparel inspired by the coast. Built for training, recovery, and everything in between.</div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:"6px 18px"}}>
-              {["Four-way stretch tech","Moisture-wicking","Buttery-soft feel","Training to lounging"].map(function(f,i){
-                return <div key={i} style={{fontSize:11,color:"#1F2937",display:"flex",alignItems:"center",gap:8,letterSpacing:".01em"}}>
-                  <span style={{color:"#5A6B48",fontWeight:500,flexShrink:0}}>—</span>
+            <div style={{fontSize:10,color:"#CFFF05",letterSpacing:".2em",fontWeight:800,marginBottom:10,textTransform:"uppercase"}}>Motocross · Off-Road · BMX · Snow</div>
+            <img src={AD_LOGO} alt={AD_BRAND} style={{height:42,width:"auto",display:"block",marginBottom:10}}/>
+            <div style={{fontSize:13,color:"#A1A1AA",marginBottom:14,lineHeight:1.5,fontStyle:"italic"}}>Goggles built for the dirt, the park, and everything downhill.</div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:"5px 14px"}}>
+              {["4-Layer factory foam","Anti-fog lenses","Tear-off compatible","Interchangeable lenses"].map(function(f,i){
+                return <div key={i} style={{fontSize:11,color:"#E4E4E7",display:"flex",alignItems:"center",gap:6,letterSpacing:".01em"}}>
+                  <span style={{color:"#CFFF05",fontWeight:700,flexShrink:0}}>▸</span>
                   <span>{f}</span>
                 </div>;
               })}
             </div>
+            <div style={{fontSize:11,color:"#CFFF05",marginTop:12,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase"}}>🔥 Free shipping on orders $150+</div>
           </div>
-          <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"#1F2937",color:"#F5EFE5",padding:"13px 28px",borderRadius:2,fontSize:11,fontWeight:600,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".18em"}}>Shop Vuori</div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#CFFF05",color:"#0A0A0A",padding:"13px 24px",borderRadius:2,fontSize:12,fontWeight:800,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".18em"}}>Shop Now →</div>
         </div>
       </a>
     </div>
