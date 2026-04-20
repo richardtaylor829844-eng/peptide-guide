@@ -79,6 +79,22 @@ function Card(props) {
   );
 }
 function AdSlot(props) {
+  if (props.compact) {
+    return (
+      <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
+        <div style={{fontSize:8,color:S.m,textTransform:"uppercase",letterSpacing:".16em",marginBottom:4,textAlign:"center"}}>Advertisement</div>
+        <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",textDecoration:"none",padding:"12px 18px",borderRadius:8,background:"linear-gradient(135deg,#EFE6D4 0%,#DED0B6 100%)",border:"1px solid rgba(31,41,55,.12)",transition:"all .2s"}}
+          onMouseEnter={function(e){e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow="0 6px 18px rgba(0,0,0,.2)"}}
+          onMouseLeave={function(e){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
+          <div style={{display:"flex",alignItems:"baseline",gap:14,flex:1,minWidth:200}}>
+            <div style={{fontSize:24,fontWeight:400,color:"#1F2937",letterSpacing:"-.03em",lineHeight:1}}>vuori</div>
+            <div style={{fontSize:11,color:"#3B4654",lineHeight:1.4}}>Performance apparel, inspired by the coast.</div>
+          </div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#1F2937",color:"#F5EFE5",padding:"8px 16px",borderRadius:2,fontSize:10,fontWeight:600,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".14em"}}>Shop</div>
+        </a>
+      </div>
+    );
+  }
   return (
     <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
       <div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".14em",marginBottom:6,textAlign:"center"}}>Advertisement</div>
@@ -211,7 +227,8 @@ export default function App() {
       <main style={{maxWidth:900,margin:"0 auto",padding:"24px 20px"}}>
         {view==="home" && (
           <div>
-            <div style={{textAlign:"center",padding:"40px 0 32px"}}>
+            <AdSlot compact mb={8}/>
+            <div style={{textAlign:"center",padding:"32px 0 32px"}}>
               <h1 style={{fontSize:30,fontWeight:700,lineHeight:1.2,margin:"0 0 10px"}}>What do you need help with?</h1>
               <p style={{fontSize:15,color:S.d,maxWidth:460,margin:"0 auto"}}>Tap your concern and we'll show you which peptides researchers have studied for it.</p>
             </div>
@@ -254,6 +271,7 @@ export default function App() {
               <p style={{fontSize:13,color:S.m,marginBottom:10}}>Not sure what you need?</p>
               <button onClick={function(){setView("chat")}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 24px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500}}>Ask the AI →</button>
             </div>
+            <AdSlot mb={20}/>
             <Card style={{background:"linear-gradient(135deg,rgba(94,234,212,.06),rgba(56,189,248,.06))",border:"1px solid "+S.abr,textAlign:"center",marginBottom:16}}>
               <div style={{fontSize:24,marginBottom:6}}>📬</div>
               <h3 style={{fontSize:18,fontWeight:700,margin:"0 0 6px"}}>Stay in the Loop</h3>
@@ -271,7 +289,6 @@ export default function App() {
               )}
               <p style={{fontSize:10,color:S.m,marginTop:10,marginBottom:0}}>No spam. Unsubscribe anytime.</p>
             </Card>
-            <AdSlot/>
           </div>
         )}
         {view==="concern" && con && (
