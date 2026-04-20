@@ -60,6 +60,19 @@ var PEPS = {
   cjcipa:{name:"CJC/Ipamorelin Blend",cat:"Blends",mw:"CJC-1295 + Ipamorelin",best:"Growth hormone, sleep",why:"The gold standard GH stack. CJC triggers GH release, Ipamorelin amplifies it.",plain:"Two peptides that hit different GH switches in your brain. The combo is stronger than either alone.",areas:["Amplified GH release","Better deep sleep","Fat loss","Lean muscle support","Recovery and repair"],studies:[{t:"See individual data",j:"Multiple",y:2010}],seq:"CJC-1295 No DAC + Ipamorelin",store:"Keep frozen as powder. Refrigerate once mixed."},
   tesamipa:{name:"Tesamorelin/Ipamorelin",cat:"Blends",mw:"Tesamorelin + Ipamorelin",best:"Premium GH optimization",why:"The premium stack: FDA-approved Tesamorelin + cleanest GH booster.",plain:"Combines an FDA-approved GH peptide with the most selective GH booster. The premium choice.",areas:["FDA-approved component","Clean GH elevation","Belly fat targeting","Metabolic improvement","Premium GH stack"],studies:[{t:"See individual data",j:"Multiple",y:2015}],seq:"Tesamorelin + Ipamorelin",store:"Keep frozen as powder. Refrigerate once mixed."}
 };
+// Published / commonly-reported half-life values (educational reference, not dosing advice)
+var HALF_LIVES = {
+  bpc157:"~4 hours",tb500:"~2 hours (long tissue retention)",ll37:"~30 minutes",kpv:"Short (~30 min)",
+  ta1:"~2 hours",glutathione:"~10 minutes (IV)",ghkcu:"~2 hours",ss31:"~2.5 hours",
+  epithalon:"Short — downstream effects last much longer",motsc:"Minutes (effects via gene expression)",
+  nad:"~9 hours (systemic)",pinealon:"Short (~hours)",cjcnodac:"~30 minutes",cjcdac:"~8 days",
+  ipamorelin:"~2 hours",sermorelin:"~10–20 minutes",tesamorelin:"~35 minutes",
+  selank:"Short — effects up to 72h",semax:"Short — effects up to 24h",cerebrolysin:"Variable (protein mix)",
+  aod9604:"~30 minutes",semaglutide:"~7 days",tirzepatide:"~5 days",retatrutide:"~6 days",
+  pt141:"~2 hours",kisspeptin:"~28 minutes",mt1:"~1 hour",mt2:"~33 minutes",
+  wolverine:"4h (BPC) + 2h (TB-500)",glow:"Varies by component",klow:"Varies by component",
+  cjcipa:"30min (CJC) + 2h (Ipa)",tesamipa:"35min (Tesa) + 2h (Ipa)"
+};
 var S = {
   bg:"#0B1120",card:"#141D2F",surf:"#0E1528",
   a:"#5EEAD4",ab:"rgba(94,234,212,.08)",abr:"rgba(94,234,212,.15)",
@@ -131,6 +144,50 @@ function InstallPrompt() {
       )}
     </div>
   );
+}
+// ----- Stack helpers -----
+var FREQ_OPTIONS = [
+  {id:"daily",label:"Daily",hours:24},
+  {id:"twice-daily",label:"Twice daily",hours:12},
+  {id:"eod",label:"Every other day",hours:48},
+  {id:"3x-week",label:"3× per week (every 56h)",hours:56},
+  {id:"weekly",label:"Weekly",hours:168}
+];
+function freqHours(id){ for(var i=0;i<FREQ_OPTIONS.length;i++){ if(FREQ_OPTIONS[i].id===id) return FREQ_OPTIONS[i].hours; } return 24; }
+function freqLabel(id){ for(var i=0;i<FREQ_OPTIONS.length;i++){ if(FREQ_OPTIONS[i].id===id) return FREQ_OPTIONS[i].label; } return id; }
+function formatAgo(ts){
+  if(!ts) return "Never logged";
+  var ms = Date.now() - ts;
+  if (ms < 60000) return "Just now";
+  var m = Math.floor(ms/60000);
+  if (m < 60) return m + "m ago";
+  var h = Math.floor(m/60);
+  if (h < 24) return h + "h " + (m%60) + "m ago";
+  var d = Math.floor(h/24);
+  return d + "d " + (h%24) + "h ago";
+}
+function formatDueIn(ms){
+  if (ms <= 0) {
+    var over = Math.abs(ms);
+    var m = Math.floor(over/60000);
+    if (m < 60) return "Overdue " + m + "m";
+    var h = Math.floor(m/60);
+    if (h < 24) return "Overdue " + h + "h " + (m%60) + "m";
+    var d = Math.floor(h/24);
+    return "Overdue " + d + "d";
+  }
+  var m = Math.floor(ms/60000);
+  if (m < 60) return "In " + m + "m";
+  var h = Math.floor(m/60);
+  if (h < 24) return "In " + h + "h " + (m%60) + "m";
+  var d = Math.floor(h/24);
+  return "In " + d + "d " + (h%24) + "h";
+}
+function dueColor(ms, frequencyHours){
+  var freqMs = frequencyHours * 3600 * 1000;
+  if (ms <= 0) return "#F87171"; // overdue — red
+  if (ms < freqMs * 0.15) return "#FCD34D"; // <15% remaining — amber
+  return "#5EEAD4"; // plenty of time — teal
 }
 function Card(props) {
   var isClickable = !!props.onClick;
@@ -206,7 +263,35 @@ export default function App() {
   var sbLoad = useState(false); var subLoad = sbLoad[0]; var setSubLoad = sbLoad[1];
   var srS = useState(""); var searchQ = srS[0]; var setSearchQ = srS[1];
   var cfS = useState("all"); var catFilter = cfS[0]; var setCatFilter = cfS[1];
+  var stackS = useState([]); var stack = stackS[0]; var setStack = stackS[1];
+  var stackFormS = useState(null); var stackForm = stackFormS[0]; var setStackForm = stackFormS[1];
+  var tickS = useState(0); var tickT = tickS[0]; var setTick = tickS[1];
   var endRef = useRef(null);
+  // Load stack from localStorage on mount
+  useEffect(function(){
+    try { var raw = window.localStorage.getItem("peptide-stack-v1"); if (raw) setStack(JSON.parse(raw)); } catch(e) {}
+  }, []);
+  // Save stack whenever it changes
+  useEffect(function(){
+    try { window.localStorage.setItem("peptide-stack-v1", JSON.stringify(stack)); } catch(e) {}
+  }, [stack]);
+  // Tick every minute so "next due" re-renders
+  useEffect(function(){
+    var t = setInterval(function(){ setTick(function(x){return x+1}); }, 60000);
+    return function(){ clearInterval(t); };
+  }, []);
+  function stackAdd(entry){
+    var id = String(Date.now()) + Math.random().toString(36).slice(2,6);
+    setStack(stack.concat([Object.assign({id:id,lastInjection:null,notes:""}, entry)]));
+    setStackForm(null);
+  }
+  function stackUpdate(id, changes){
+    setStack(stack.map(function(s){ return s.id===id ? Object.assign({}, s, changes) : s; }));
+  }
+  function stackRemove(id){
+    if (typeof window!=="undefined" && !window.confirm("Remove this from your stack?")) return;
+    setStack(stack.filter(function(s){ return s.id !== id; }));
+  }
   useEffect(function(){if(endRef.current)endRef.current.scrollIntoView({behavior:"smooth"})},[msgs]);
   useEffect(function(){window.scrollTo(0,0)},[view,sel,con]);
   var mg = parseFloat(mgStr) || 0;
@@ -288,7 +373,7 @@ export default function App() {
           <span style={{color:S.a}}>Peptide</span>Guide
         </div>
         <div style={{display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end"}}>
-          {[["home","Home"],["all","All Peptides"],["calc","Calculator"],["chat","Ask AI"]].map(function(x){
+          {[["home","Home"],["all","All Peptides"],["stack","My Stack"],["calc","Calculator"],["chat","Ask AI"]].map(function(x){
             return <button key={x[0]} onClick={function(){setView(x[0]);setSel(null);setCon(null)}} style={{background:view===x[0]?S.ab:"transparent",border:"1px solid "+(view===x[0]?S.abr:"transparent"),color:view===x[0]?S.a:S.t,padding:"8px 14px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500,transition:"all .15s"}}>{x[1]}</button>
           })}
         </div>
@@ -405,7 +490,7 @@ export default function App() {
                 {p.areas.map(function(a,i){return <div key={i} style={{padding:"8px 12px",background:S.surf,borderRadius:6,marginBottom:4,fontSize:13,display:"flex",gap:8}}><span style={{color:S.a}}>+</span>{a}</div>})}
               </Card>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,background:S.br,borderRadius:10,overflow:"hidden",marginBottom:14}}>
-                {[["Molecular Weight",p.mw],["Source",p.seq],["Storage",p.store],["Category",p.cat]].map(function(x,i){return <div key={i} style={{background:S.card,padding:"12px 14px"}}><div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".08em",marginBottom:3}}>{x[0]}</div><div style={{fontSize:12,fontWeight:500}}>{x[1]}</div></div>})}
+                {[["Molecular Weight",p.mw],["Half-Life",HALF_LIVES[sel]||"—"],["Source",p.seq],["Storage",p.store],["Category",p.cat]].map(function(x,i){return <div key={i} style={{background:S.card,padding:"12px 14px"}}><div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".08em",marginBottom:3}}>{x[0]}</div><div style={{fontSize:12,fontWeight:500}}>{x[1]}</div></div>})}
               </div>
               <Card style={{marginBottom:14}}>
                 <h3 style={{fontSize:14,fontWeight:600,marginBottom:8}}>Published Research</h3>
@@ -562,6 +647,102 @@ export default function App() {
               </div>
             </Card>
             <div style={{marginTop:10,fontSize:10,color:S.m,textAlign:"center"}}>This AI shares research info only. Not medical advice. Talk to a doctor for personal guidance.</div>
+          </div>
+        )}
+        {view==="stack" && (
+          <div>
+            <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",flexWrap:"wrap",gap:10,marginBottom:6}}>
+              <h2 style={{fontSize:24,fontWeight:700,margin:0}}>My Stack</h2>
+              <button onClick={function(){setStackForm({pepId:"",dose:"",doseUnit:"mcg",frequency:"daily",notes:""})}} style={{background:"linear-gradient(135deg,#5EEAD4,#38BDF8)",border:"none",color:"#0B1120",padding:"9px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:700}}>+ Add peptide</button>
+            </div>
+            <p style={{color:S.d,fontSize:13,marginBottom:12}}>Track what you've taken, when you took it, and when the next dose is due. All data stays on this device.</p>
+            <div style={{padding:"10px 14px",borderRadius:8,background:"rgba(250,200,50,.05)",border:"1px solid "+S.wbr,marginBottom:18,fontSize:11,color:S.d,lineHeight:1.5}}>
+              <strong style={{color:S.w}}>Disclaimer —</strong> This tool is for personal organization only. It is not medical advice, dosing guidance, or a substitute for a licensed clinician. Peptides discussed on this site are for research use only. Consult a physician for anything related to your health.
+            </div>
+            {stack.length === 0 && !stackForm && (
+              <div style={{textAlign:"center",padding:"50px 20px",background:S.card,borderRadius:12,border:"1px solid "+S.br}}>
+                <div style={{fontSize:36,marginBottom:10}}>📋</div>
+                <p style={{fontSize:14,color:S.t,marginBottom:4,fontWeight:500}}>Your stack is empty.</p>
+                <p style={{fontSize:12,color:S.d,marginBottom:16}}>Add a peptide to start tracking.</p>
+                <button onClick={function(){setStackForm({pepId:"",dose:"",doseUnit:"mcg",frequency:"daily",notes:""})}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"9px 18px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500}}>+ Add your first peptide</button>
+              </div>
+            )}
+            {stackForm && (
+              <Card style={{marginBottom:14,border:"1px solid "+S.abr}}>
+                <h3 style={{fontSize:15,fontWeight:600,marginBottom:12}}>Add peptide to stack</h3>
+                <div style={{marginBottom:12}}>
+                  <label style={{fontSize:11,color:S.d,display:"block",marginBottom:4}}>Peptide</label>
+                  <select value={stackForm.pepId} onChange={function(e){setStackForm(Object.assign({},stackForm,{pepId:e.target.value}))}} style={{width:"100%",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13}}>
+                    <option value="">— pick one —</option>
+                    {pepKeys.map(function(id){return <option key={id} value={id}>{PEPS[id].name} ({PEPS[id].cat})</option>})}
+                  </select>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"2fr 1fr",gap:10,marginBottom:12}}>
+                  <div>
+                    <label style={{fontSize:11,color:S.d,display:"block",marginBottom:4}}>Dose</label>
+                    <input type="text" inputMode="decimal" value={stackForm.dose} onChange={function(e){setStackForm(Object.assign({},stackForm,{dose:e.target.value.replace(/[^0-9.]/g,"")}))}} placeholder="e.g. 250" style={{width:"100%",boxSizing:"border-box",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontSize:14,fontFamily:"monospace"}}/>
+                  </div>
+                  <div>
+                    <label style={{fontSize:11,color:S.d,display:"block",marginBottom:4}}>Unit</label>
+                    <select value={stackForm.doseUnit} onChange={function(e){setStackForm(Object.assign({},stackForm,{doseUnit:e.target.value}))}} style={{width:"100%",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13}}>
+                      <option value="mcg">mcg</option>
+                      <option value="mg">mg</option>
+                      <option value="iu">IU</option>
+                      <option value="units">units</option>
+                    </select>
+                  </div>
+                </div>
+                <div style={{marginBottom:12}}>
+                  <label style={{fontSize:11,color:S.d,display:"block",marginBottom:4}}>Frequency</label>
+                  <select value={stackForm.frequency} onChange={function(e){setStackForm(Object.assign({},stackForm,{frequency:e.target.value}))}} style={{width:"100%",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13}}>
+                    {FREQ_OPTIONS.map(function(f){return <option key={f.id} value={f.id}>{f.label}</option>})}
+                  </select>
+                </div>
+                <div style={{marginBottom:14}}>
+                  <label style={{fontSize:11,color:S.d,display:"block",marginBottom:4}}>Notes (optional)</label>
+                  <textarea value={stackForm.notes} onChange={function(e){setStackForm(Object.assign({},stackForm,{notes:e.target.value}))}} rows={2} placeholder="e.g. morning, subcutaneous, cycle 1" style={{width:"100%",boxSizing:"border-box",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13,resize:"vertical"}}/>
+                </div>
+                <div style={{display:"flex",gap:8,justifyContent:"flex-end"}}>
+                  <button onClick={function(){setStackForm(null)}} style={{background:"transparent",border:"1px solid "+S.br,color:S.d,padding:"9px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12}}>Cancel</button>
+                  <button disabled={!stackForm.pepId || !stackForm.dose} onClick={function(){stackAdd(stackForm)}} style={{background:stackForm.pepId && stackForm.dose ? "linear-gradient(135deg,#5EEAD4,#38BDF8)" : S.surf,border:"none",color:stackForm.pepId && stackForm.dose ? "#0B1120" : S.m,padding:"9px 18px",borderRadius:8,cursor:stackForm.pepId && stackForm.dose ? "pointer" : "not-allowed",fontFamily:S.f,fontSize:12,fontWeight:700}}>Save</button>
+                </div>
+              </Card>
+            )}
+            <div style={{display:"flex",flexDirection:"column",gap:12}}>
+              {stack.map(function(s){
+                var p = PEPS[s.pepId]; if(!p) return null;
+                var freqH = freqHours(s.frequency);
+                var nextTs = s.lastInjection ? s.lastInjection + freqH*3600*1000 : null;
+                var msRemaining = nextTs ? nextTs - Date.now() : null;
+                return (
+                  <Card key={s.id}>
+                    <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:10,marginBottom:8,flexWrap:"wrap"}}>
+                      <div>
+                        <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",marginBottom:2}}>
+                          <h3 onClick={function(){setSel(s.pepId);setView("detail");setCon(null)}} style={{fontSize:17,fontWeight:600,margin:0,cursor:"pointer"}}>{p.name}</h3>
+                          <span style={{fontSize:10,color:S.a,background:S.ab,padding:"2px 8px",borderRadius:4}}>{p.cat}</span>
+                        </div>
+                        <div style={{fontSize:12,color:S.d}}>{s.dose} {s.doseUnit} · {freqLabel(s.frequency)} · half-life {HALF_LIVES[s.pepId] || "—"}</div>
+                      </div>
+                      <button onClick={function(){stackRemove(s.id)}} title="Remove" style={{background:"transparent",border:"none",color:S.m,cursor:"pointer",padding:"4px 8px",fontSize:14}}>×</button>
+                    </div>
+                    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:10,background:S.surf,borderRadius:8,padding:12,marginBottom:10}}>
+                      <div>
+                        <div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".08em",marginBottom:2}}>Last taken</div>
+                        <div style={{fontSize:13,fontWeight:500,color:S.t}}>{formatAgo(s.lastInjection)}</div>
+                      </div>
+                      <div>
+                        <div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".08em",marginBottom:2}}>Next due</div>
+                        <div style={{fontSize:13,fontWeight:600,color:msRemaining!==null?dueColor(msRemaining,freqH):S.m}}>{msRemaining!==null?formatDueIn(msRemaining):"—"}</div>
+                      </div>
+                    </div>
+                    {s.notes && <div style={{fontSize:11,color:S.d,fontStyle:"italic",marginBottom:10,padding:"6px 10px",background:S.surf,borderRadius:6}}>{s.notes}</div>}
+                    <button onClick={function(){stackUpdate(s.id,{lastInjection:Date.now()})}} style={{width:"100%",background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 16px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600}}>✓ Log injection now</button>
+                  </Card>
+                );
+              })}
+            </div>
+            {stack.length > 0 && <p style={{fontSize:10,color:S.m,textAlign:"center",marginTop:16}}>Saved to this device only. Clearing your browser data will erase your stack.</p>}
           </div>
         )}
       </main>
