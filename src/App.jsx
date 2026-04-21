@@ -796,7 +796,6 @@ export default function App() {
                     <select value={stackForm.doseUnit} onChange={function(e){setStackForm(Object.assign({},stackForm,{doseUnit:e.target.value}))}} style={{width:"100%",padding:"10px 12px",background:S.surf,border:"1px solid "+S.br,borderRadius:8,color:S.t,fontFamily:S.f,fontSize:13}}>
                       <option value="mcg">mcg</option>
                       <option value="mg">mg</option>
-                      <option value="iu">IU</option>
                       <option value="units">units</option>
                     </select>
                   </div>
