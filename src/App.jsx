@@ -470,16 +470,16 @@ export default function App() {
     setSubLoad(false);
   }
   return (
-    <div style={{fontFamily:S.f,background:S.bg,color:S.t,minHeight:"100vh"}}>
+    <div style={{fontFamily:S.f,background:S.bg,color:S.t,minHeight:"100vh",overflowX:"hidden"}}>
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
       <DisclaimerGate/>
       <nav style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexWrap:"wrap",minHeight:56}}>
         <div onClick={function(){setView("home");setSel(null);setCon(null)}} onMouseEnter={function(e){e.currentTarget.style.opacity="0.75"}} onMouseLeave={function(e){e.currentTarget.style.opacity="1"}} style={{cursor:"pointer",fontWeight:700,fontSize:17,transition:"opacity .15s",userSelect:"none"}} title="Back to home">
           <span style={{color:S.a}}>Peptide</span>Guide
         </div>
-        <div style={{display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end"}}>
-          {[["home","Home"],["all","All Peptides"],["stack","My Stack"],["calc","Calculator"],["chat","Ask AI"]].map(function(x){
-            return <button key={x[0]} onClick={function(){setView(x[0]);setSel(null);setCon(null)}} style={{background:view===x[0]?S.ab:"transparent",border:"1px solid "+(view===x[0]?S.abr:"transparent"),color:view===x[0]?S.a:S.t,padding:"8px 14px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500,transition:"all .15s"}}>{x[1]}</button>
+        <div style={{display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end",flex:"1 1 280px",minWidth:0}}>
+          {[["home","Home"],["all","Peptides"],["stack","Stack"],["calc","Calculator"],["chat","Ask AI"]].map(function(x){
+            return <button key={x[0]} onClick={function(){setView(x[0]);setSel(null);setCon(null)}} style={{background:view===x[0]?S.ab:"transparent",border:"1px solid "+(view===x[0]?S.abr:"transparent"),color:view===x[0]?S.a:S.t,padding:"7px 12px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500,transition:"all .15s",whiteSpace:"nowrap"}}>{x[1]}</button>
           })}
         </div>
       </nav>
