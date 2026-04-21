@@ -9,9 +9,13 @@ var CHAT_ENDPOINT = "https://peptide-proxy.richardtaylor829844.workers.dev";
 //    ConvertKit form URL, Formspree URL, etc.) — see DEPLOY.md
 var EMAIL_ENDPOINT = "https://formspree.io/f/mrerlwak";
 // 3. Your peptide store link (used in ad slots)
+// Big ad (bottom / peptide detail / concern pages) — EKS Brand
 var AD_LINK = "https://eksbrand.com/";
 var AD_BRAND = "EKS Brand";
 var AD_LOGO = "https://eksbrand.com/cdn/shop/files/X-Brand-Logo_1600x.png?v=1614298337";
+// Compact ad (top banner) — Vuori
+var COMPACT_AD_LINK = "https://vuoriclothing.com/";
+var COMPACT_AD_BRAND = "Vuori";
 // ============================================================
 
 var CONCERNS = [
@@ -310,14 +314,14 @@ function AdSlot(props) {
     return (
       <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
         <div style={{fontSize:8,color:S.m,textTransform:"uppercase",letterSpacing:".16em",marginBottom:4,textAlign:"center"}}>Advertisement</div>
-        <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",textDecoration:"none",padding:"10px 16px",borderRadius:6,background:"#0A0A0A",border:"1px solid rgba(207,255,5,.35)",transition:"all .2s"}}
-          onMouseEnter={function(e){e.currentTarget.style.borderColor="#CFFF05";e.currentTarget.style.boxShadow="0 0 22px rgba(207,255,5,.18)"}}
-          onMouseLeave={function(e){e.currentTarget.style.borderColor="rgba(207,255,5,.35)";e.currentTarget.style.boxShadow="none"}}>
-          <div style={{display:"flex",alignItems:"center",gap:14,flex:1,minWidth:200,flexWrap:"wrap"}}>
-            <img src={AD_LOGO} alt={AD_BRAND} style={{height:26,width:"auto",display:"block"}}/>
-            <div style={{fontSize:10,color:"#CFFF05",fontWeight:700,letterSpacing:".12em",textTransform:"uppercase"}}>Free shipping over $150</div>
+        <a href={COMPACT_AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",textDecoration:"none",padding:"12px 18px",borderRadius:8,background:"linear-gradient(135deg,#EFE6D4 0%,#DED0B6 100%)",border:"1px solid rgba(31,41,55,.12)",transition:"all .2s"}}
+          onMouseEnter={function(e){e.currentTarget.style.transform="translateY(-1px)";e.currentTarget.style.boxShadow="0 6px 18px rgba(0,0,0,.2)"}}
+          onMouseLeave={function(e){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none"}}>
+          <div style={{display:"flex",alignItems:"baseline",gap:14,flex:1,minWidth:200,flexWrap:"wrap"}}>
+            <div style={{fontSize:24,fontWeight:400,color:"#1F2937",letterSpacing:"-.03em",lineHeight:1}}>vuori</div>
+            <div style={{fontSize:11,color:"#3B4654",lineHeight:1.4}}>Performance apparel, inspired by the coast.</div>
           </div>
-          <div style={{display:"inline-flex",alignItems:"center",gap:4,background:"#CFFF05",color:"#0A0A0A",padding:"7px 16px",borderRadius:2,fontSize:10,fontWeight:800,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".18em"}}>Shop →</div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#1F2937",color:"#F5EFE5",padding:"8px 16px",borderRadius:2,fontSize:10,fontWeight:600,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".14em"}}>Shop</div>
         </a>
       </div>
     );
