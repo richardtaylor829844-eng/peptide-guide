@@ -9,10 +9,10 @@ var CHAT_ENDPOINT = "https://peptide-proxy.richardtaylor829844.workers.dev";
 //    ConvertKit form URL, Formspree URL, etc.) — see DEPLOY.md
 var EMAIL_ENDPOINT = "https://formspree.io/f/mrerlwak";
 // 3. Your peptide store link (used in ad slots)
-// Big ad (bottom / peptide detail / concern pages) — EKS Brand
-var AD_LINK = "https://eksbrand.com/";
-var AD_BRAND = "EKS Brand";
-var AD_LOGO = "https://eksbrand.com/cdn/shop/files/X-Brand-Logo_1600x.png?v=1614298337";
+// Big ad (bottom / peptide detail / concern pages) — Uprise Consulting Group
+var AD_LINK = "https://uprisecg.com/";
+var AD_BRAND = "Uprise Consulting Group";
+var AD_LOGO = "https://uprisecg.com/wp-content/uploads/2025/03/Uprise-Consulting-Group-Inc-Logo-White.webp";
 // Compact ad (top banner) — Vuori
 var COMPACT_AD_LINK = "https://vuoriclothing.com/";
 var COMPACT_AD_BRAND = "Vuori";
@@ -329,26 +329,24 @@ function AdSlot(props) {
   return (
     <div style={{marginTop:props.mt||0,marginBottom:props.mb||0}}>
       <div style={{fontSize:9,color:S.m,textTransform:"uppercase",letterSpacing:".14em",marginBottom:6,textAlign:"center"}}>Advertisement</div>
-      <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"block",textDecoration:"none",padding:"26px 28px",borderRadius:8,background:"linear-gradient(120deg,#0A0A0A 0%,#141414 55%,#0A0A0A 100%)",border:"1px solid rgba(207,255,5,.35)",transition:"all .2s",position:"relative",overflow:"hidden"}}
-        onMouseEnter={function(e){e.currentTarget.style.borderColor="#CFFF05";e.currentTarget.style.boxShadow="0 0 32px rgba(207,255,5,.15)"}}
-        onMouseLeave={function(e){e.currentTarget.style.borderColor="rgba(207,255,5,.35)";e.currentTarget.style.boxShadow="none"}}>
-        <div style={{position:"absolute",top:0,right:0,width:"45%",height:"100%",background:"linear-gradient(135deg,transparent 40%,rgba(0,229,255,.06) 100%)",pointerEvents:"none"}}/>
-        <div style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:20}}>
-          <div style={{flex:1,minWidth:220}}>
-            <div style={{fontSize:10,color:"#CFFF05",letterSpacing:".2em",fontWeight:800,marginBottom:10,textTransform:"uppercase"}}>Motocross · Off-Road · BMX · Snow</div>
-            <img src={AD_LOGO} alt={AD_BRAND} style={{height:42,width:"auto",display:"block",marginBottom:10}}/>
-            <div style={{fontSize:13,color:"#A1A1AA",marginBottom:14,lineHeight:1.5,fontStyle:"italic"}}>Goggles built for the dirt, the park, and everything downhill.</div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:"5px 14px"}}>
-              {["4-Layer factory foam","Anti-fog lenses","Tear-off compatible","Interchangeable lenses"].map(function(f,i){
-                return <div key={i} style={{fontSize:11,color:"#E4E4E7",display:"flex",alignItems:"center",gap:6,letterSpacing:".01em"}}>
-                  <span style={{color:"#CFFF05",fontWeight:700,flexShrink:0}}>▸</span>
+      <a href={AD_LINK} target="_blank" rel="sponsored noopener noreferrer" style={{display:"block",textDecoration:"none",padding:"28px 30px",borderRadius:10,background:"linear-gradient(135deg,#0F2647 0%,#1A3A6B 55%,#0F2647 100%)",border:"1px solid rgba(245,97,77,.25)",transition:"all .2s"}}
+        onMouseEnter={function(e){e.currentTarget.style.borderColor="rgba(245,97,77,.6)";e.currentTarget.style.boxShadow="0 10px 32px rgba(0,0,0,.4)"}}
+        onMouseLeave={function(e){e.currentTarget.style.borderColor="rgba(245,97,77,.25)";e.currentTarget.style.boxShadow="none"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
+          <div style={{flex:1,minWidth:240}}>
+            <div style={{fontSize:10,color:"#9CB4D8",letterSpacing:".2em",fontWeight:600,marginBottom:10,textTransform:"uppercase"}}>Healthcare Revenue Cycle</div>
+            <img src={AD_LOGO} alt={AD_BRAND} style={{height:44,width:"auto",display:"block",marginBottom:12}}/>
+            <div style={{fontSize:14,color:"#fff",marginBottom:14,lineHeight:1.45,fontWeight:400,maxWidth:440}}>Prevent denials, underpayments, and DRG downgrades — solved at the root cause, done for you.</div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:"5px 16px"}}>
+              {["Denials prevention","Charge capture","DRG & coding audit","Done-for-you service"].map(function(f,i){
+                return <div key={i} style={{fontSize:11,color:"#D4DEED",display:"flex",alignItems:"center",gap:6,letterSpacing:".01em"}}>
+                  <span style={{color:"#F5614D",fontWeight:700,flexShrink:0}}>→</span>
                   <span>{f}</span>
                 </div>;
               })}
             </div>
-            <div style={{fontSize:11,color:"#CFFF05",marginTop:12,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase"}}>🔥 Free shipping on orders $150+</div>
           </div>
-          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#CFFF05",color:"#0A0A0A",padding:"13px 24px",borderRadius:2,fontSize:12,fontWeight:800,whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:".18em"}}>Shop Now →</div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"#F5614D",color:"#fff",padding:"13px 24px",borderRadius:30,fontSize:12,fontWeight:600,whiteSpace:"nowrap",letterSpacing:".03em"}}>Request Demo →</div>
         </div>
       </a>
     </div>
