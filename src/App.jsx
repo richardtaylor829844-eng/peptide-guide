@@ -369,6 +369,10 @@ export default function App() {
   var sbLoad = useState(false); var subLoad = sbLoad[0]; var setSubLoad = sbLoad[1];
   var srS = useState(""); var searchQ = srS[0]; var setSearchQ = srS[1];
   var cfS = useState("all"); var catFilter = cfS[0]; var setCatFilter = cfS[1];
+  var unlockedS = useState(false); var emailUnlocked = unlockedS[0]; var setEmailUnlocked = unlockedS[1];
+  var gateEmailS = useState(""); var gateEmail = gateEmailS[0]; var setGateEmail = gateEmailS[1];
+  var gateLoadS = useState(false); var gateLoading = gateLoadS[0]; var setGateLoading = gateLoadS[1];
+  var gateErrS = useState(""); var gateErr = gateErrS[0]; var setGateErr = gateErrS[1];
   var stackS = useState([]); var stack = stackS[0]; var setStack = stackS[1];
   var stackFormS = useState(null); var stackForm = stackFormS[0]; var setStackForm = stackFormS[1];
   var tickS = useState(0); var tickT = tickS[0]; var setTick = tickS[1];
@@ -376,7 +380,43 @@ export default function App() {
   // Load stack from localStorage on mount
   useEffect(function(){
     try { var raw = window.localStorage.getItem("peptide-stack-v1"); if (raw) setStack(JSON.parse(raw)); } catch(e) {}
+    try { if (window.localStorage.getItem("pg-email-unlocked") === "1") setEmailUnlocked(true); } catch(e) {}
   }, []);
+  async function submitGateEmail(){
+    var e = gateEmail.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){
+      setGateErr("That email doesn't look right — double-check it?");
+      return;
+    }
+    setGateErr("");
+    setGateLoading(true);
+    try {
+      var resp = await fetch(EMAIL_ENDPOINT,{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({email:e,source:"unlock-gate"})
+      });
+      if (resp.ok){
+        try { window.localStorage.setItem("pg-email-unlocked","1"); } catch(e) {}
+        setEmailUnlocked(true);
+        setGateEmail("");
+      } else {
+        setGateErr("Couldn't sign you up right now — try again in a moment.");
+      }
+    } catch(err){
+      setGateErr("Couldn't sign you up right now — try again in a moment.");
+    }
+    setGateLoading(false);
+  }
+  function dismissGate(){
+    setView("home");
+    setSel(null);
+    setCon(null);
+    setGateEmail("");
+    setGateErr("");
+  }
+  var GATED_VIEWS = ["chat","stack","calc","detail"];
+  var showEmailGate = !emailUnlocked && GATED_VIEWS.indexOf(view) >= 0;
   // Save stack whenever it changes
   useEffect(function(){
     try { window.localStorage.setItem("peptide-stack-v1", JSON.stringify(stack)); } catch(e) {}
@@ -475,6 +515,39 @@ export default function App() {
     <div style={{fontFamily:S.f,background:S.bg,color:S.t,minHeight:"100vh",overflowX:"hidden"}}>
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
       <DisclaimerGate/>
+      {showEmailGate && (
+        <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,.82)",backdropFilter:"blur(6px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:400,padding:20,fontFamily:S.f}}>
+          <div style={{background:S.card,borderRadius:14,padding:0,maxWidth:460,width:"100%",border:"1px solid "+S.abr,boxShadow:"0 25px 70px rgba(0,0,0,.55)",overflow:"hidden"}}>
+            <div style={{padding:"26px 26px 0",textAlign:"center"}}>
+              <div style={{fontSize:32,marginBottom:8}}>🔓</div>
+              <h2 style={{fontSize:20,fontWeight:700,margin:"0 0 6px",color:S.t,lineHeight:1.25}}>Unlock full access</h2>
+              <p style={{fontSize:13,color:S.d,margin:"0 0 18px",lineHeight:1.55}}>Drop your email to unlock the AI chat, stack tracker, reconstitution calculator, and full peptide research pages.</p>
+            </div>
+            <div style={{padding:"0 26px 18px"}}>
+              <div style={{display:"flex",flexDirection:"column",gap:6,marginBottom:18}}>
+                {[
+                  "Ask our AI anything about peptide research",
+                  "Track your stack with dosing + reminders",
+                  "Full detail pages: studies, half-life, sourcing",
+                  "Reconstitution calculator"
+                ].map(function(b,i){
+                  return <div key={i} style={{fontSize:12,color:S.t,display:"flex",gap:8,alignItems:"flex-start"}}>
+                    <span style={{color:S.a,fontWeight:700,flexShrink:0}}>✓</span>
+                    <span>{b}</span>
+                  </div>;
+                })}
+              </div>
+              <input value={gateEmail} onChange={function(e){setGateEmail(e.target.value);setGateErr("")}} onKeyDown={function(e){if(e.key==="Enter")submitGateEmail()}} placeholder="you@email.com" type="email" autoFocus style={{width:"100%",boxSizing:"border-box",padding:"12px 14px",background:S.surf,border:"1px solid "+(gateErr?"#F87171":S.br),borderRadius:8,color:S.t,fontFamily:S.f,fontSize:14,outline:"none",marginBottom:gateErr?6:14}}/>
+              {gateErr && <div style={{fontSize:11,color:"#F87171",marginBottom:10}}>{gateErr}</div>}
+              <button disabled={gateLoading} onClick={submitGateEmail} style={{width:"100%",background:gateLoading?S.surf:"linear-gradient(135deg,#5EEAD4,#38BDF8)",border:"none",color:gateLoading?S.m:"#0B1120",padding:"13px 18px",borderRadius:8,cursor:gateLoading?"wait":"pointer",fontFamily:S.f,fontSize:14,fontWeight:700,marginBottom:10}}>{gateLoading?"…":"Unlock access"}</button>
+              <button onClick={dismissGate} style={{width:"100%",background:"transparent",border:"none",color:S.d,padding:"8px 0",cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500}}>Maybe later — keep browsing</button>
+            </div>
+            <div style={{padding:"14px 26px",borderTop:"1px solid "+S.br,background:S.surf}}>
+              <p style={{fontSize:10,color:S.m,margin:0,textAlign:"center",lineHeight:1.5}}>We'll send peptide research updates and exclusive sourcing access. No spam. Unsubscribe anytime.</p>
+            </div>
+          </div>
+        </div>
+      )}
       <nav style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
         <div onClick={function(){setView("home");setSel(null);setCon(null)}} onMouseEnter={function(e){e.currentTarget.style.opacity="0.75"}} onMouseLeave={function(e){e.currentTarget.style.opacity="1"}} style={{cursor:"pointer",fontWeight:700,fontSize:17,transition:"opacity .15s",userSelect:"none"}} title="Back to home">
           <span style={{color:S.a}}>Peptide</span>Guide
@@ -542,6 +615,7 @@ export default function App() {
               <button onClick={function(){setView("chat")}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 24px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500}}>Ask the AI →</button>
             </div>
             <AdSlot mb={20}/>
+            {!emailUnlocked && (
             <Card style={{background:"linear-gradient(135deg,rgba(94,234,212,.06),rgba(56,189,248,.06))",border:"1px solid "+S.abr,textAlign:"center",marginBottom:16}}>
               <div style={{fontSize:24,marginBottom:6}}>📬</div>
               <h3 style={{fontSize:18,fontWeight:700,margin:"0 0 6px"}}>Stay in the Loop</h3>
@@ -559,6 +633,7 @@ export default function App() {
               )}
               <p style={{fontSize:10,color:S.m,marginTop:10,marginBottom:0}}>No spam. Unsubscribe anytime.</p>
             </Card>
+            )}
           </div>
         )}
         {view==="concern" && con && (
