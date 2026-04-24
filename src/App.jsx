@@ -543,7 +543,7 @@ export default function App() {
               <button onClick={dismissGate} style={{width:"100%",background:"transparent",border:"none",color:S.d,padding:"8px 0",cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500}}>Maybe later — keep browsing</button>
             </div>
             <div style={{padding:"14px 26px",borderTop:"1px solid "+S.br,background:S.surf}}>
-              <p style={{fontSize:10,color:S.m,margin:0,textAlign:"center",lineHeight:1.5}}>We'll send peptide research updates and exclusive sourcing access. No spam. Unsubscribe anytime.</p>
+              <p style={{fontSize:10,color:S.m,margin:0,textAlign:"center",lineHeight:1.5}}>We'll send peptide research updates and occasional offers from our partners. No spam. Unsubscribe anytime.</p>
             </div>
           </div>
         </div>
@@ -561,7 +561,6 @@ export default function App() {
       <main style={{maxWidth:900,margin:"0 auto",padding:"24px 20px"}}>
         {view==="home" && (
           <div>
-            <AdSlot compact mb={8}/>
             <InstallPrompt/>
             <Card onClick={function(){setView("learn")}} style={{background:"linear-gradient(135deg,rgba(99,102,241,.10),rgba(56,189,248,.08))",border:"1px solid rgba(99,102,241,.25)",marginBottom:14,display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",padding:"14px 18px"}}>
               <div style={{fontSize:28,flexShrink:0}}>📖</div>
@@ -614,12 +613,11 @@ export default function App() {
               <p style={{fontSize:13,color:S.m,marginBottom:10}}>Not sure what you need?</p>
               <button onClick={function(){setView("chat")}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"10px 24px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:500}}>Ask the AI →</button>
             </div>
-            <AdSlot mb={20}/>
             {!emailUnlocked && (
             <Card style={{background:"linear-gradient(135deg,rgba(94,234,212,.06),rgba(56,189,248,.06))",border:"1px solid "+S.abr,textAlign:"center",marginBottom:16}}>
               <div style={{fontSize:24,marginBottom:6}}>📬</div>
               <h3 style={{fontSize:18,fontWeight:700,margin:"0 0 6px"}}>Stay in the Loop</h3>
-              <p style={{fontSize:13,color:S.d,margin:"0 0 16px",maxWidth:460,marginLeft:"auto",marginRight:"auto"}}>Get peptide research updates, new compound breakdowns, and exclusive access to pharmaceutical-grade sourcing — straight to your inbox.</p>
+              <p style={{fontSize:13,color:S.d,margin:"0 0 16px",maxWidth:460,marginLeft:"auto",marginRight:"auto"}}>Get peptide research updates, new compound breakdowns, and occasional offers from our partners — straight to your inbox.</p>
               {!submitted ? (
                 <div>
                   <div style={{display:"flex",gap:8,justifyContent:"center",flexWrap:"wrap",maxWidth:440,margin:"0 auto"}}>
@@ -657,7 +655,6 @@ export default function App() {
                 );
               })}
             </div>
-            <div style={{marginTop:24}}><AdSlot/></div>
           </div>
         )}
         {view==="detail" && sel && PEPS[sel] && (function(){
@@ -703,7 +700,6 @@ export default function App() {
                   </div>
                 </div>
               )}
-              <AdSlot/>
             </div>
           );
         })()}
@@ -924,6 +920,72 @@ export default function App() {
             </div>
           </div>
         )}
+        {view==="privacy" && (
+          <div style={{maxWidth:720,margin:"0 auto"}}>
+            <button onClick={function(){setView("home")}} style={{background:S.surf,border:"1px solid "+S.br,color:S.t,padding:"8px 14px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500,marginBottom:20,display:"inline-flex",alignItems:"center",gap:6}}>← Home</button>
+            <h1 style={{fontSize:26,fontWeight:700,margin:"0 0 4px",lineHeight:1.2}}>Privacy Policy</h1>
+            <p style={{fontSize:12,color:S.m,marginBottom:22}}>Last updated: April 2026</p>
+            <div style={{fontSize:13,color:S.t,lineHeight:1.7}}>
+              <p style={{marginTop:0}}>This Privacy Policy describes how PeptideGuide ("we," "our," "us") collects, uses, and shares information when you use this website.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>1. Information we collect</h2>
+              <p style={{marginTop:0}}>We collect the following information:</p>
+              <ul style={{paddingLeft:20,margin:"4px 0 12px"}}>
+                <li style={{marginBottom:4}}><strong>Email address</strong> — when you subscribe to our mailing list or unlock gated features.</li>
+                <li style={{marginBottom:4}}><strong>Content you submit to the AI chat</strong> — questions or descriptions you type are transmitted to our AI provider to generate responses.</li>
+                <li style={{marginBottom:4}}><strong>Local data stored on your device</strong> — your disclaimer acknowledgment, peptide stack entries, and subscription status are saved in your browser's localStorage. This data stays on your device and is not transmitted to us.</li>
+                <li style={{marginBottom:4}}><strong>Standard server logs</strong> — our hosting provider automatically records IP addresses, user agents, and timestamps for security and diagnostics.</li>
+              </ul>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>2. How we use your information</h2>
+              <p style={{marginTop:0}}>We use your email address to:</p>
+              <ul style={{paddingLeft:20,margin:"4px 0 12px"}}>
+                <li style={{marginBottom:4}}>Send peptide research updates and educational content.</li>
+                <li style={{marginBottom:4}}>Send occasional commercial offers from partner companies in the peptide, health, and wellness industries.</li>
+                <li style={{marginBottom:4}}>Respond to inquiries you send us.</li>
+              </ul>
+              <p style={{marginTop:0}}>We use AI chat inputs only to generate responses in real time. We may retain conversation logs for service-improvement purposes.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>3. Sharing with partners</h2>
+              <p style={{marginTop:0}}>We may share your email address with commercial partners for marketing purposes. These partners may include peptide suppliers, health and wellness brands, and related service providers. By subscribing, you consent to this sharing. You can withdraw this consent at any time by unsubscribing from any email.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>4. Service providers</h2>
+              <p style={{marginTop:0}}>We use third-party services to operate this site, including:</p>
+              <ul style={{paddingLeft:20,margin:"4px 0 12px"}}>
+                <li style={{marginBottom:4}}>Hosting and delivery (Vercel, Cloudflare)</li>
+                <li style={{marginBottom:4}}>Email collection and delivery (Formspree and our email marketing providers)</li>
+                <li style={{marginBottom:4}}>AI chat responses (Anthropic)</li>
+              </ul>
+              <p style={{marginTop:0}}>These providers process information on our behalf under their own privacy terms.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>5. Cookies and local storage</h2>
+              <p style={{marginTop:0}}>We do not currently use third-party tracking cookies. We use browser localStorage to remember your disclaimer acceptance, your peptide stack entries, and whether you have unlocked full access to the site. You can clear this at any time via your browser settings.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>6. Your rights</h2>
+              <ul style={{paddingLeft:20,margin:"4px 0 12px"}}>
+                <li style={{marginBottom:4}}><strong>Unsubscribe:</strong> Every marketing email we send includes a one-click unsubscribe link.</li>
+                <li style={{marginBottom:4}}><strong>Access or delete your data:</strong> You may request a copy of the personal information we hold about you, or request deletion, by emailing us at the address below.</li>
+                <li style={{marginBottom:4}}><strong>California (CCPA / CPRA):</strong> California residents have the right to know what personal information we collect, to request deletion, and to opt out of sale or sharing of personal information for cross-context behavioral advertising.</li>
+                <li style={{marginBottom:4}}><strong>EU / UK (GDPR / UK GDPR):</strong> If you are located in the EU or UK, the legal basis for our processing is your consent, which you may withdraw at any time.</li>
+              </ul>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>7. Data retention</h2>
+              <p style={{marginTop:0}}>We retain email addresses until you unsubscribe or request deletion. Server logs are typically retained for 30-90 days by our hosting providers.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>8. Children</h2>
+              <p style={{marginTop:0}}>This site is not intended for or directed at anyone under 18 years old. We do not knowingly collect information from children.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>9. Security</h2>
+              <p style={{marginTop:0}}>We use industry-standard security practices, but no online service is 100% secure. You submit information to this site at your own risk.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>10. Changes to this policy</h2>
+              <p style={{marginTop:0}}>We may update this policy from time to time. Material changes will be noted with a revised "Last updated" date. Continued use of the site after changes constitutes acceptance of the revised policy.</p>
+
+              <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>11. Contact</h2>
+              <p style={{marginTop:0,marginBottom:0}}>Questions, requests, or complaints about this policy can be directed to: <strong style={{color:S.a}}>privacy@peptideguide.com</strong> (update this before launch).</p>
+            </div>
+          </div>
+        )}
         {view==="stack" && (
           <div>
             <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",flexWrap:"wrap",gap:10,marginBottom:6}}>
@@ -1029,7 +1091,11 @@ export default function App() {
             <div onClick={function(){setView("home");setSel(null);setCon(null)}} style={{fontWeight:700,fontSize:15,marginBottom:6,cursor:"pointer"}}>
               <span style={{color:S.a}}>Peptide</span>Guide
             </div>
-            <div style={{fontSize:10,color:S.m,lineHeight:1.6}}>Research-backed peptide education.<br/>© {new Date().getFullYear()} PeptideGuide.</div>
+            <div style={{fontSize:10,color:S.m,lineHeight:1.6,marginBottom:8}}>Research-backed peptide education.<br/>© {new Date().getFullYear()} PeptideGuide.</div>
+            <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+              <a onClick={function(e){e.preventDefault();setView("privacy")}} href="#" style={{fontSize:10,color:S.d,textDecoration:"none",borderBottom:"1px dotted "+S.m,cursor:"pointer"}}>Privacy Policy</a>
+              <a onClick={function(e){e.preventDefault();setView("learn")}} href="#" style={{fontSize:10,color:S.d,textDecoration:"none",borderBottom:"1px dotted "+S.m,cursor:"pointer"}}>About Peptides</a>
+            </div>
           </div>
           <div style={{flex:1,maxWidth:520,fontSize:10,color:S.m,lineHeight:1.7,textAlign:"right"}}>
             <p style={{margin:"0 0 6px"}}>All products referenced are for research use only. Content reflects published scientific literature and is not medical advice, diagnosis, or treatment.</p>
