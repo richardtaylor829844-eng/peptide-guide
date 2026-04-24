@@ -490,6 +490,14 @@ export default function App() {
           <div>
             <AdSlot compact mb={8}/>
             <InstallPrompt/>
+            <Card onClick={function(){setView("learn")}} style={{background:"linear-gradient(135deg,rgba(99,102,241,.10),rgba(56,189,248,.08))",border:"1px solid rgba(99,102,241,.25)",marginBottom:14,display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",padding:"14px 18px"}}>
+              <div style={{fontSize:28,flexShrink:0}}>📖</div>
+              <div style={{flex:1,minWidth:180}}>
+                <div style={{fontSize:14,fontWeight:700,color:S.t,marginBottom:1}}>New to peptides?</div>
+                <div style={{fontSize:12,color:S.d}}>Start with the plain-English explainer — what they are, why researchers care, what to know.</div>
+              </div>
+              <div style={{fontSize:12,color:"#A5B4FC",fontWeight:600,whiteSpace:"nowrap"}}>Read intro →</div>
+            </Card>
             <div style={{textAlign:"center",padding:"32px 0 32px"}}>
               <h1 style={{fontSize:30,fontWeight:700,lineHeight:1.2,margin:"0 0 10px"}}>What do you need help with?</h1>
               <p style={{fontSize:15,color:S.d,maxWidth:460,margin:"0 auto"}}>Tap your concern and we'll show you which peptides researchers have studied for it.</p>
@@ -754,6 +762,91 @@ export default function App() {
               </div>
             </Card>
             <div style={{marginTop:10,fontSize:10,color:S.m,textAlign:"center"}}>This AI shares research info only. Not medical advice. Talk to a doctor for personal guidance.</div>
+          </div>
+        )}
+        {view==="learn" && (
+          <div style={{maxWidth:720,margin:"0 auto"}}>
+            <button onClick={function(){setView("home")}} style={{background:S.surf,border:"1px solid "+S.br,color:S.t,padding:"8px 14px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500,marginBottom:20,display:"inline-flex",alignItems:"center",gap:6}}>← Home</button>
+            <div style={{fontSize:36,marginBottom:6}}>📖</div>
+            <h1 style={{fontSize:28,fontWeight:700,margin:"0 0 6px",lineHeight:1.2}}>Peptides, in Plain English</h1>
+            <p style={{fontSize:14,color:S.d,marginBottom:26,lineHeight:1.6}}>If you've never heard of peptides before, this is for you. No jargon, no marketing, just the basics.</p>
+
+            <Card style={{marginBottom:14}}>
+              <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 10px",color:S.t}}>So… what actually <em>is</em> a peptide?</h2>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>A peptide is a short chain of amino acids. Amino acids are the building blocks of protein — the same stuff in chicken, eggs, and the muscles on your own body. When you string a handful of them together, you get a peptide. String hundreds together, you get a protein.</p>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>Your body makes thousands of peptides on its own, every day. Some of them act like <strong style={{color:S.a}}>tiny text messages</strong> your cells send to each other: "heal this tear," "release more of this hormone," "calm down the inflammation over here," "turn on this gene."</p>
+              <p style={{fontSize:14,color:S.d,lineHeight:1.7,margin:0,fontStyle:"italic"}}>Think of peptides as biological signals. Each one tells a specific part of your body to do a specific thing.</p>
+            </Card>
+
+            <Card style={{marginBottom:14}}>
+              <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 10px",color:S.t}}>Why are researchers interested?</h2>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>Three reasons, mostly:</p>
+              <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:10}}>
+                {[
+                  {t:"They're very specific.",d:"A peptide usually only talks to one type of cell or receptor. That means fewer side effects than a drug that affects your whole system."},
+                  {t:"Levels drop as you age.",d:"Your body makes less of some key peptides over time — growth hormone releasers, collagen signals, repair molecules. Research looks at whether restoring them helps."},
+                  {t:"Some already work as medicine.",d:"Semaglutide (Ozempic, Wegovy) is a peptide. Tesamorelin is a peptide. Sermorelin was the first peptide drug approved in the US. These aren't fringe — they're already in use."}
+                ].map(function(p,i){
+                  return <div key={i} style={{padding:"10px 14px",background:S.surf,borderRadius:8}}>
+                    <div style={{fontSize:13,fontWeight:600,color:S.t,marginBottom:3}}>{p.t}</div>
+                    <div style={{fontSize:12,color:S.d,lineHeight:1.5}}>{p.d}</div>
+                  </div>;
+                })}
+              </div>
+              <p style={{fontSize:13,color:S.d,lineHeight:1.6,margin:0}}>Scientists are studying peptides for: recovery from injury, weight loss, inflammation, aging, immune function, brain health, hormones, and sexual function.</p>
+            </Card>
+
+            <Card style={{marginBottom:14}}>
+              <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 10px",color:S.t}}>How are peptides different from drugs?</h2>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>Most pharmaceutical drugs are tiny synthetic chemicals that bind to many things in the body at once — which is why they tend to have long side-effect lists. Peptides, by contrast, usually <strong>mimic molecules your body already recognizes</strong>. That makes them more targeted.</p>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>The tradeoff: your stomach breaks peptides down before they can work, so they almost always have to be <strong>injected</strong> (usually under the skin, like insulin). Some nasal sprays exist, and oral versions are being developed, but most research peptides are subcutaneous injections.</p>
+              <p style={{fontSize:14,color:S.d,lineHeight:1.7,margin:0,fontStyle:"italic"}}>Short version: peptides work with your body's own signaling, rather than forcing it.</p>
+            </Card>
+
+            <Card style={{background:"rgba(252,211,77,.05)",border:"1px solid "+S.wbr,marginBottom:14}}>
+              <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 10px",color:S.w}}>What to know before going further</h2>
+              <p style={{fontSize:13,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>Peptide research is exciting, but here's the honest reality:</p>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {[
+                  "Most peptides aren't FDA-approved for human use. That doesn't mean they're unsafe — it means the FDA hasn't finished evaluating them. Some have decades of research, some have almost none.",
+                  "Quality varies enormously between suppliers. A 'BPC-157' vial from one vendor can be 99% pure with verified testing, and from another vendor it can contain almost none of the compound on the label.",
+                  "Long-term safety data is limited for most peptides. Short-term studies look promising; we don't always know what 20 years of use looks like.",
+                  "Nothing on this site is medical advice. Peptides can interact with medications, affect hormones, and cause side effects. If you're considering personal use, work with a licensed clinician who can evaluate your specific situation."
+                ].map(function(item,i){
+                  return <div key={i} style={{fontSize:13,color:S.d,lineHeight:1.6,display:"flex",gap:8}}>
+                    <span style={{color:S.w,flexShrink:0,fontWeight:700}}>•</span>
+                    <span>{item}</span>
+                  </div>;
+                })}
+              </div>
+            </Card>
+
+            <Card style={{marginBottom:14}}>
+              <h2 style={{fontSize:18,fontWeight:700,margin:"0 0 10px",color:S.t}}>How this site works</h2>
+              <p style={{fontSize:14,color:S.t,lineHeight:1.7,margin:"0 0 10px"}}>We summarize what researchers have published about individual peptides, in language you don't need a biology degree to follow. You can:</p>
+              <div style={{display:"flex",flexDirection:"column",gap:6,marginBottom:10}}>
+                {[
+                  {t:"Browse by concern",d:"Pick a goal — injury recovery, weight loss, sleep, etc. — and see which peptides research has focused on for it."},
+                  {t:"Browse all peptides",d:"Scan the full library alphabetically or filter by category."},
+                  {t:"Ask the AI",d:"Describe what you're dealing with and get a plain-English pointer to relevant research."},
+                  {t:"Use the tools",d:"Reconstitution calculator and stack tracker are included for organizational purposes."}
+                ].map(function(p,i){
+                  return <div key={i} style={{fontSize:13,color:S.t,display:"flex",gap:10,padding:"6px 10px",background:S.surf,borderRadius:6}}>
+                    <span style={{color:S.a,fontWeight:700,flexShrink:0}}>→</span>
+                    <div>
+                      <div style={{fontWeight:600,marginBottom:1}}>{p.t}</div>
+                      <div style={{fontSize:12,color:S.d,lineHeight:1.5}}>{p.d}</div>
+                    </div>
+                  </div>;
+                })}
+              </div>
+              <p style={{fontSize:12,color:S.m,lineHeight:1.6,margin:0,fontStyle:"italic"}}>All content is based on published literature and reflects research — not medical recommendations.</p>
+            </Card>
+
+            <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap",marginTop:24}}>
+              <button onClick={function(){setView("home")}} style={{background:"linear-gradient(135deg,#5EEAD4,#38BDF8)",border:"none",color:"#0B1120",padding:"12px 22px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:700}}>Browse peptides by concern →</button>
+              <button onClick={function(){setView("all")}} style={{background:S.ab,border:"1px solid "+S.abr,color:S.a,padding:"12px 22px",borderRadius:8,cursor:"pointer",fontFamily:S.f,fontSize:13,fontWeight:600}}>See all peptides</button>
+            </div>
           </div>
         )}
         {view==="stack" && (
