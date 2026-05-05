@@ -72,9 +72,9 @@ export function downloadReminder(entry, peptideName) {
   const start = new Date(startMs);
   const end = new Date(startMs + 15 * 60 * 1000);
   const summary = peptideName + " — " + entry.dose + " " + entry.doseUnit;
-  const desc = "Scheduled from PeptideGuide My Stack." + (entry.notes ? " Notes: " + entry.notes : "");
+  const desc = "Scheduled from Peptide Reference Guide My Stack." + (entry.notes ? " Notes: " + entry.notes : "");
   const lines = [
-    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//PeptideGuide//MyStack//EN", "CALSCALE:GREGORIAN",
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//PeptideReferenceGuide//MyStack//EN", "CALSCALE:GREGORIAN",
     "BEGIN:VEVENT",
     "UID:" + entry.id + "@peptideguide",
     "DTSTAMP:" + icsFormatDate(new Date()),

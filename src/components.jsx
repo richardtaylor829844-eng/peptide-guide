@@ -39,14 +39,14 @@ export function DisclaimerGate() {
           <p style={{fontSize:11,color:S.m,margin:"4px 0 0"}}>You must accept these terms to continue using this site.</p>
         </div>
         <div style={{padding:"16px 26px",overflow:"auto",flex:1,fontSize:12,color:S.d,lineHeight:1.6}}>
-          <p style={{marginTop:0,color:S.t,fontWeight:500}}>PeptideGuide presents educational information on peptide compounds based on published research. All peptides referenced on this site are <strong style={{color:S.w}}>for research use only</strong> — they are not approved by the FDA or any other regulatory body for human consumption, treatment, cure, or diagnosis of any medical condition.</p>
+          <p style={{marginTop:0,color:S.t,fontWeight:500}}>Peptide Reference Guide presents educational information on peptide compounds based on published research. All peptides referenced on this site are <strong style={{color:S.w}}>for research use only</strong> — they are not approved by the FDA or any other regulatory body for human consumption, treatment, cure, or diagnosis of any medical condition.</p>
           <p style={{color:S.t,marginBottom:10}}>By clicking "I Understand and Accept," you acknowledge and agree that:</p>
           <ol style={{paddingLeft:18,marginTop:0,marginBottom:14}}>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>You are at least 18 years of age</strong> and legally capable of entering into this agreement.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>This site does not provide medical advice.</strong> Content is educational only and is not a substitute for professional medical, clinical, or pharmacological guidance. Nothing here should be interpreted as a recommendation to take any substance.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>Peptides are not for human consumption.</strong> Any decision to handle, use, or administer any substance referenced here is made solely at your own risk. Consult a licensed physician before making decisions related to your health.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>No guarantee of accuracy.</strong> Information reflects our interpretation of published literature and may not be current, complete, or accurate. Research on peptide compounds is evolving.</li>
-            <li style={{marginBottom:8}}><strong style={{color:S.t}}>You release the site operators from all liability.</strong> You agree to hold harmless PeptideGuide, its operators, employees, affiliates, and advertisers from any claims, damages, or injuries arising from your use of this site or any information contained herein.</li>
+            <li style={{marginBottom:8}}><strong style={{color:S.t}}>You release the site operators from all liability.</strong> You agree to hold harmless Peptide Reference Guide, its operators, employees, affiliates, and advertisers from any claims, damages, or injuries arising from your use of this site or any information contained herein.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>Tools are for organization only.</strong> The scheduler, calculator, stack tracker, and half-life references are for organizational convenience. They do not constitute medical dosing guidance or clinical advice.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>Advertisements are not endorsements.</strong> Third-party ads appear on this site. Advertisers have no editorial influence. We may receive compensation for ad placements or referrals.</li>
             <li style={{marginBottom:8}}><strong style={{color:S.t}}>You are responsible for local-law compliance.</strong> Access from jurisdictions where peptide content is restricted is prohibited.</li>
@@ -104,7 +104,7 @@ export function InstallPrompt() {
         <div style={{display:"flex",alignItems:"center",gap:10,flex:1,minWidth:200}}>
           <span style={{fontSize:20}}>📱</span>
           <div>
-            <div style={{fontSize:13,fontWeight:600,color:S.t}}>Install PeptideGuide on your phone</div>
+            <div style={{fontSize:13,fontWeight:600,color:S.t}}>Install Peptide Reference Guide on your phone</div>
             <div style={{fontSize:11,color:S.d}}>One tap. No app store. Opens full-screen from your home screen.</div>
           </div>
         </div>
@@ -120,7 +120,7 @@ export function InstallPrompt() {
             <h3 style={{fontSize:18,fontWeight:700,margin:"0 0 4px",textAlign:"center",color:S.t}}>Install on iPhone</h3>
             <p style={{fontSize:12,color:S.d,marginBottom:18,textAlign:"center"}}>iPhone needs three quick taps — Apple doesn't let apps install themselves.</p>
             <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:18}}>
-              {[{n:"1",t:"Tap the Share button",s:"The square with an arrow pointing up, at the bottom of Safari."},{n:"2",t:"Scroll and tap \"Add to Home Screen\"",s:"It's in the menu that slides up."},{n:"3",t:"Tap Add (top right)",s:"PeptideGuide will appear on your home screen like an app."}].map((step) => (
+              {[{n:"1",t:"Tap the Share button",s:"The square with an arrow pointing up, at the bottom of Safari."},{n:"2",t:"Scroll and tap \"Add to Home Screen\"",s:"It's in the menu that slides up."},{n:"3",t:"Tap Add (top right)",s:"Peptide Reference Guide will appear on your home screen like an app."}].map((step) => (
                 <div key={step.n} style={{display:"flex",gap:12,alignItems:"flex-start"}}>
                   <div style={{width:24,height:24,borderRadius:12,background:S.ab,color:S.a,fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{step.n}</div>
                   <div>

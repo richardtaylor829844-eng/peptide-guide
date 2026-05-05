@@ -1,6 +1,6 @@
 {
-  "name": "PeptideGuide",
-  "short_name": "PeptideGuide",
+  "name": "Peptide Reference Guide",
+  "short_name": "Peptide Ref",
   "description": "Plain-English education on peptides researchers have studied for recovery, weight loss, anti-aging, and more.",
   "start_url": "/",
   "scope": "/",

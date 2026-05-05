@@ -216,7 +216,7 @@ export default function App() {
       )}
       <nav style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
         <div onClick={()=>{setView("home");setSel(null);setCon(null)}} onMouseEnter={(e)=>e.currentTarget.style.opacity="0.75"} onMouseLeave={(e)=>e.currentTarget.style.opacity="1"} style={{cursor:"pointer",fontWeight:700,fontSize:17,transition:"opacity .15s",userSelect:"none"}} title="Back to home">
-          <span style={{color:S.a}}>Peptide</span>Guide
+          <span style={{color:S.a}}>Peptide</span> Reference Guide
         </div>
         <div style={{display:"flex",gap:3,flexWrap:"wrap",justifyContent:"flex-end",flex:"1 1 260px",minWidth:0}}>
           {[["home","Home"],["all","Peptides"],["stack","Stack"],["calc","Calc"],["chat","Ask AI"]].map((x) => (
@@ -590,7 +590,7 @@ export default function App() {
             <h1 style={{fontSize:26,fontWeight:700,margin:"0 0 4px",lineHeight:1.2}}>Privacy Policy</h1>
             <p style={{fontSize:12,color:S.m,marginBottom:22}}>Last updated: April 2026</p>
             <div style={{fontSize:13,color:S.t,lineHeight:1.7}}>
-              <p style={{marginTop:0}}>This Privacy Policy describes how PeptideGuide ("we," "our," "us") collects, uses, and shares information when you use this website.</p>
+              <p style={{marginTop:0}}>This Privacy Policy describes how Peptide Reference Guide ("we," "our," "us") collects, uses, and shares information when you use this website.</p>
 
               <h2 style={{fontSize:16,fontWeight:700,margin:"24px 0 8px",color:S.t}}>1. Information we collect</h2>
               <p style={{marginTop:0}}>We collect the following information:</p>
@@ -753,9 +753,9 @@ export default function App() {
         <div style={{maxWidth:900,margin:"0 auto",padding:"24px 20px",display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:20}}>
           <div style={{minWidth:180}}>
             <div onClick={()=>{setView("home");setSel(null);setCon(null)}} style={{fontWeight:700,fontSize:15,marginBottom:6,cursor:"pointer"}}>
-              <span style={{color:S.a}}>Peptide</span>Guide
+              <span style={{color:S.a}}>Peptide</span> Reference Guide
             </div>
-            <div style={{fontSize:10,color:S.m,lineHeight:1.6,marginBottom:8}}>Research-backed peptide education.<br/>© {new Date().getFullYear()} PeptideGuide.</div>
+            <div style={{fontSize:10,color:S.m,lineHeight:1.6,marginBottom:8}}>Research-backed peptide education.<br/>© {new Date().getFullYear()} Peptide Reference Guide.</div>
             <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
               <a onClick={(e)=>{e.preventDefault();setView("privacy")}} href="#" style={{fontSize:10,color:S.d,textDecoration:"none",borderBottom:"1px dotted "+S.m,cursor:"pointer"}}>Privacy Policy</a>
               <a onClick={(e)=>{e.preventDefault();setView("learn")}} href="#" style={{fontSize:10,color:S.d,textDecoration:"none",borderBottom:"1px dotted "+S.m,cursor:"pointer"}}>About Peptides</a>
