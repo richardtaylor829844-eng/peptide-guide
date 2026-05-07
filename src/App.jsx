@@ -233,6 +233,9 @@ export default function App() {
       <main style={{maxWidth:900,margin:"0 auto",padding:"24px 20px"}}>
         {view==="home" && (
           <div>
+            <div style={{textAlign:"center",padding:"20px 0 28px"}}>
+              <img src="/logo.png" alt="Peptide Reference Guide" style={{width:"100%",maxWidth:420,height:"auto",display:"inline-block"}}/>
+            </div>
             <InstallPrompt/>
             <Card onClick={()=>setView("learn")} style={{background:"linear-gradient(135deg,rgba(99,102,241,.10),rgba(56,189,248,.08))",border:"1px solid rgba(99,102,241,.25)",marginBottom:14,display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",padding:"14px 18px"}}>
               <div style={{fontSize:28,flexShrink:0}}>📖</div>
