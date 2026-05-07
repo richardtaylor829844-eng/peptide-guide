@@ -73,9 +73,8 @@ export default function App() {
     setGateErr("");
   }
 
-  // Only the AI chat is gated — it has real per-message API cost.
-  // Calc, Stack, and peptide detail pages are free.
-  const GATED_VIEWS = ["chat"];
+  // Email gates disabled for now — everything is free.
+  const GATED_VIEWS = [];
   const showEmailGate = !emailUnlocked && GATED_VIEWS.indexOf(view) >= 0;
 
   useEffect(() => {
@@ -256,7 +255,7 @@ export default function App() {
               <p style={{fontSize:13,color:S.d,margin:"0 0 10px",lineHeight:1.5}}>Most online peptide sellers are reselling cheap, unverified product from overseas labs with no real quality control. No sterility testing. No endotoxin testing. No way to verify what's actually in the vial. And since most peptides are injected, you're putting whatever is in that vial directly into your body.</p>
               <p style={{fontSize:13,color:S.t,margin:"0 0 10px",lineHeight:1.5,fontWeight:500}}>What you should demand from any supplier:</p>
               <div style={{display:"flex",flexDirection:"column",gap:5,marginBottom:12}}>
-                {["American made — manufactured in the USA, not imported and relabeled","Pharmaceutical grade — not just 'research grade' from an unknown lab","GMP certified facility — the same manufacturing standard as real medications","99%+ purity verified by third-party testing","Actual milligram content tested to be at or above the label — not rounded up on an underfilled vial","Third-party sterility testing on every batch","Third-party endotoxin testing on every batch","Certificate of Analysis (COA) included with every single peptide","All testing documents viewable and downloadable — not hidden or 'available upon request'"].map((item, i) => (
+                {["American made — manufactured in the USA, not imported and relabeled","Pharmaceutical grade — not just 'research grade' from an unknown lab","GMP certified facility — the same manufacturing standard as real medications","99%+ purity verified by third-party testing","Third-party sterility testing on every batch","Third-party endotoxin testing on every batch","Certificate of Analysis (COA) included with every single peptide","All testing documents viewable and downloadable — not hidden or 'available upon request'"].map((item, i) => (
                   <div key={i} style={{fontSize:12,color:S.t,display:"flex",alignItems:"flex-start",gap:8}}>
                     <span style={{color:"#5EEAD4",fontWeight:700,flexShrink:0}}>✓</span>
                     <span>{item}</span>
@@ -264,7 +263,7 @@ export default function App() {
                 ))}
               </div>
               <p style={{fontSize:13,color:"#F87171",margin:"0 0 4px",lineHeight:1.5,fontWeight:500}}>If your supplier can't check every one of these boxes, you don't know what you're putting in your body.</p>
-              <p style={{fontSize:12,color:S.d,margin:"0 0 12px",lineHeight:1.5}}>Many sellers claim "99% purity" but can't show you the documents to prove it. Many claim "USA made" but operate from a virtual office with no lab. And many quietly round their labels up — a vial sold as "10mg" tests at 7mg and they pocket the rest, every order, forever. Always ask to see the actual test results — and if they can't show them to you instantly, walk away.</p>
+              <p style={{fontSize:12,color:S.d,margin:"0 0 12px",lineHeight:1.5}}>Many sellers claim "99% purity" but can't show you the documents to prove it. Many claim "USA made" but operate from a virtual office with no lab. Always ask to see the actual test results — and if they can't show them to you instantly, walk away.</p>
               <button onClick={()=>setView("chat")} style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#FCA5A5",padding:"8px 16px",borderRadius:6,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500}}>Have questions about supplier quality? Ask our AI →</button>
             </Card>
             <Card onClick={()=>setView("calc")} style={{background:"linear-gradient(135deg,rgba(94,234,212,.06),rgba(56,189,248,.06))",border:"1px solid "+S.abr,marginBottom:20}}>
