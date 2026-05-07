@@ -215,7 +215,7 @@ export default function App() {
       )}
       <nav style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
         <div onClick={()=>{setView("home");setSel(null);setCon(null)}} onMouseEnter={(e)=>e.currentTarget.style.opacity="0.75"} onMouseLeave={(e)=>e.currentTarget.style.opacity="1"} style={{cursor:"pointer",transition:"opacity .15s",userSelect:"none",display:"flex",alignItems:"center"}} title="Back to home">
-          <img src="/logo.png" alt="Peptide Reference Guide" style={{height:48,width:"auto",display:"block"}}/>
+          <img src="/logo.png" alt="Peptide Reference Guide" style={{height:72,width:"auto",display:"block"}}/>
         </div>
         <div style={{display:"flex",gap:3,flexWrap:"wrap",justifyContent:"flex-end",flex:"1 1 260px",minWidth:0}}>
           {[["home","Home"],["all","Peptides"],["stack","Stack"],["calc","Calc"],["chat","Ask AI"]].map((x) => (
@@ -752,7 +752,7 @@ export default function App() {
         <div style={{maxWidth:900,margin:"0 auto",padding:"24px 20px",display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:20}}>
           <div style={{minWidth:180}}>
             <div onClick={()=>{setView("home");setSel(null);setCon(null)}} style={{marginBottom:8,cursor:"pointer",display:"inline-block"}}>
-              <img src="/logo.png" alt="Peptide Reference Guide" style={{height:36,width:"auto",display:"block"}}/>
+              <img src="/logo.png" alt="Peptide Reference Guide" style={{height:56,width:"auto",display:"block"}}/>
             </div>
             <div style={{fontSize:10,color:S.m,lineHeight:1.6,marginBottom:8}}>Research-backed peptide education.<br/>© {new Date().getFullYear()} Peptide Reference Guide.</div>
             <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
