@@ -213,11 +213,18 @@ export default function App() {
           </div>
         </div>
       )}
-      <nav style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
-        <div onClick={()=>{setView("home");setSel(null);setCon(null)}} onMouseEnter={(e)=>e.currentTarget.style.opacity="0.75"} onMouseLeave={(e)=>e.currentTarget.style.opacity="1"} style={{cursor:"pointer",fontWeight:700,fontSize:17,transition:"opacity .15s",userSelect:"none"}} title="Back to home">
+      <style>{`
+        @media (max-width: 600px) {
+          .pg-nav { justify-content: center !important; }
+          .pg-nav-title { width: 100%; text-align: center; }
+          .pg-nav-buttons { justify-content: center !important; flex: 0 1 auto !important; }
+        }
+      `}</style>
+      <nav className="pg-nav" style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
+        <div className="pg-nav-title" onClick={()=>{setView("home");setSel(null);setCon(null)}} onMouseEnter={(e)=>e.currentTarget.style.opacity="0.75"} onMouseLeave={(e)=>e.currentTarget.style.opacity="1"} style={{cursor:"pointer",fontWeight:700,fontSize:17,transition:"opacity .15s",userSelect:"none"}} title="Back to home">
           <span style={{color:S.a}}>Peptide</span> Reference Guide
         </div>
-        <div style={{display:"flex",gap:3,flexWrap:"wrap",justifyContent:"flex-end",flex:"1 1 260px",minWidth:0}}>
+        <div className="pg-nav-buttons" style={{display:"flex",gap:3,flexWrap:"wrap",justifyContent:"flex-end",flex:"1 1 260px",minWidth:0}}>
           {[["home","Home"],["all","Peptides"],["stack","Stack"],["calc","Calc"],["chat","Ask AI"]].map((x) => (
             <button key={x[0]} onClick={()=>{setView(x[0]);setSel(null);setCon(null)}} style={{background:view===x[0]?S.ab:"transparent",border:"1px solid "+(view===x[0]?S.abr:"transparent"),color:view===x[0]?S.a:S.t,padding:"6px 10px",borderRadius:7,cursor:"pointer",fontFamily:S.f,fontSize:12,fontWeight:500,transition:"all .15s",whiteSpace:"nowrap"}}>{x[1]}</button>
           ))}
