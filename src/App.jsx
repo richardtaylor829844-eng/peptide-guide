@@ -242,7 +242,26 @@ export default function App() {
               </div>
               <div style={{fontSize:12,color:"#A5B4FC",fontWeight:600,whiteSpace:"nowrap"}}>Read intro →</div>
             </Card>
-            <div style={{textAlign:"center",padding:"32px 0 32px"}}>
+            <div style={{marginBottom:24}}>
+              <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",marginBottom:10,gap:8,flexWrap:"wrap"}}>
+                <h2 style={{fontSize:18,fontWeight:700,margin:0,color:S.t}}>Featured Compounds</h2>
+                <div style={{fontSize:11,color:S.m}}>Quick starting points if you're not sure where to begin.</div>
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:10}}>
+                {["retatrutide","wolverine","motsc","nad","glow"].map((id) => {
+                  const p = PEPS[id];
+                  return (
+                    <Card key={id} onClick={()=>{setSel(id);setView("detail")}} style={{padding:14}}>
+                      <div style={{fontSize:10,color:S.a,background:S.ab,padding:"2px 6px",borderRadius:4,display:"inline-block",marginBottom:6}}>{p.cat}</div>
+                      <h3 style={{fontSize:14,fontWeight:600,margin:"0 0 4px"}}>{p.name}</h3>
+                      <p style={{fontSize:11,color:S.d,margin:"0 0 6px",lineHeight:1.4}}>{p.best}</p>
+                      <div style={{fontSize:10,color:S.a}}>Learn more →</div>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+            <div style={{textAlign:"center",padding:"16px 0 28px"}}>
               <h1 style={{fontSize:30,fontWeight:700,lineHeight:1.2,margin:"0 0 10px"}}>What do you need help with?</h1>
               <p style={{fontSize:15,color:S.d,maxWidth:460,margin:"0 auto"}}>Tap your concern and we'll show you which peptides researchers have studied for it.</p>
             </div>
