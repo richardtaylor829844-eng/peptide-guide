@@ -218,6 +218,21 @@ export default function App() {
           .pg-nav { justify-content: center !important; }
           .pg-nav-title { width: 100%; text-align: center; }
           .pg-nav-buttons { justify-content: center !important; flex: 0 1 auto !important; }
+          .pg-featured-grid {
+            grid-template-columns: none !important;
+            grid-auto-flow: column;
+            grid-auto-columns: 78%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 6px;
+            margin-left: -20px;
+            margin-right: -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            -webkit-overflow-scrolling: touch;
+          }
+          .pg-featured-grid > * { scroll-snap-align: start; }
+          .pg-featured-grid::-webkit-scrollbar { height: 0; }
         }
       `}</style>
       <nav className="pg-nav" style={{position:"sticky",top:0,zIndex:50,background:"rgba(11,17,32,.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid "+S.br,padding:"8px 12px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,flexWrap:"wrap",minHeight:56}}>
@@ -247,7 +262,7 @@ export default function App() {
                 <h2 style={{fontSize:18,fontWeight:700,margin:0,color:S.t}}>Featured Compounds</h2>
                 <div style={{fontSize:11,color:S.m}}>Quick starting points if you're not sure where to begin.</div>
               </div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:10}}>
+              <div className="pg-featured-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))",gap:10}}>
                 {["retatrutide","wolverine","motsc","nad","glow"].map((id) => {
                   const p = PEPS[id];
                   return (
