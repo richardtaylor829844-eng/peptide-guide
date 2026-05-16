@@ -1,0 +1,43 @@
+/* Global styles + hover transitions */
+:root {
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0B1120; color: #E2E8F0; font-family: 'Outfit', sans-serif; }
+a { color: inherit; text-decoration: none; }
+
+.pg-card {
+  background: #141D2F;
+  border-radius: 14px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.06);
+  transition: all .2s;
+  display: block;
+}
+.pg-card.clickable { cursor: pointer; }
+.pg-card.clickable:hover {
+  border-color: rgba(94,234,212,.15);
+  transform: translateY(-2px);
+}
+
+/* Mobile nav: stack and center */
+@media (max-width: 600px) {
+  .pg-nav { justify-content: center !important; }
+  .pg-nav-title { width: 100%; text-align: center; }
+  .pg-nav-buttons { justify-content: center !important; flex: 0 1 auto !important; }
+  .pg-featured-grid {
+    grid-template-columns: none !important;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pg-featured-grid > * { scroll-snap-align: start; }
+  .pg-featured-grid::-webkit-scrollbar { height: 0; }
+}
