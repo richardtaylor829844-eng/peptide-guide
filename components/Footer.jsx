@@ -12,6 +12,9 @@ export function Footer() {
           <div style={{ fontSize: 10, color: S.m, lineHeight: 1.6, marginBottom: 8 }}>
             Research-backed peptide education.<br />© {new Date().getFullYear()} Peptide Reference Guide.
           </div>
+          <a href="https://animalpeptideguide.com" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, color: S.a, background: S.ab, border: "1px solid " + S.abr, padding: "5px 10px", borderRadius: 12, fontWeight: 600, marginBottom: 10 }}>
+            🐾 Sister site: Animal Peptide Guide (for pets) →
+          </a>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <Link href="/peptides" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>All Peptides</Link>
             <Link href="/concerns" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>Concerns</Link>
