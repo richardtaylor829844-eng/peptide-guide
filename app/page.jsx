@@ -88,6 +88,16 @@ export default function HomePage() {
         <div style={{ fontSize: 13, color: S.a, fontWeight: 600 }}>Open Calculator →</div>
       </Card>
 
+      <a href="https://animalpeptideguide.com" target="_blank" rel="noopener noreferrer" className="pg-card clickable" style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", padding: "18px 22px", marginBottom: 20, background: "linear-gradient(135deg,rgba(94,234,212,.06),rgba(56,189,248,.06))", border: "1px solid " + S.abr, textDecoration: "none" }}>
+        <div style={{ fontSize: 36, flexShrink: 0 }}>🐾</div>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div style={{ fontSize: 10, color: S.m, letterSpacing: ".10em", textTransform: "uppercase", fontWeight: 700, marginBottom: 2 }}>Sister site</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: S.t, marginBottom: 2 }}>Got a dog or other animal?</div>
+          <div style={{ fontSize: 12, color: S.d, lineHeight: 1.5 }}>We also run <strong style={{ color: S.t }}>Animal Peptide Guide</strong> — the same plain-English approach, but for peptide research in dogs, cats, horses, and other animals.</div>
+        </div>
+        <div style={{ fontSize: 12, color: S.a, fontWeight: 700, whiteSpace: "nowrap" }}>Visit →</div>
+      </a>
+
       <div style={{ textAlign: "center", marginBottom: 24 }}>
         <p style={{ fontSize: 13, color: S.m, marginBottom: 10 }}>Not sure what you need?</p>
         <Link href="/ask" style={{ background: S.ab, border: "1px solid " + S.abr, color: S.a, padding: "10px 24px", borderRadius: 8, fontFamily: S.f, fontSize: 13, fontWeight: 500, display: "inline-block" }}>
