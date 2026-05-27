@@ -34,14 +34,37 @@ export function AskAI() {
   const unlocked = !!email;
   const remaining = unlocked ? Infinity : Math.max(0, FREE_QUESTIONS - questionCount);
 
-  // Run the actual chat round-trip (used by both normal send and post-gate send)
-  async function callChat(msg) {
+  // Fire-and-forget question log — only after an email is on file.
+  // Gives us a record of what each lead is asking, for marketing segmentation.
+  function logQuestion(msg, currentEmail) {
+    if (!currentEmail) return;
+    try {
+      fetch(EMAIL_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          email: currentEmail,
+          source: "ask-ai-question-log",
+          site: "peptidereferenceguide.com",
+          question: msg,
+          asked_at: new Date().toISOString(),
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {}
+  }
+
+  // Run the actual chat round-trip (used by both normal send and post-gate send).
+  // emailOverride lets the gate flow pass the just-set email before React state catches up.
+  async function callChat(msg, emailOverride) {
+    const eff = emailOverride ?? email;
+    logQuestion(msg, eff);
     setLd(true);
     try {
       const resp = await fetch(CHAT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg, email: email || null }),
+        body: JSON.stringify({ message: msg, email: eff || null }),
       });
       if (!resp.ok) {
         let errMsg = "Sorry, I had trouble connecting (error " + resp.status + ").";
@@ -125,12 +148,13 @@ export function AskAI() {
     setGateLoading(false);
     setShowGate(false);
 
-    // Now actually send the message that triggered the gate
+    // Now actually send the message that triggered the gate.
+    // Pass `e` explicitly because React state for email hasn't propagated yet.
     if (pendingMsg) {
       const msg = pendingMsg;
       setPendingMsg("");
       setMsgs((p) => p.concat([{ r: "u", t: msg }]));
-      callChat(msg);
+      callChat(msg, e);
     }
   }
 
