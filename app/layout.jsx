@@ -3,6 +3,8 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { DisclaimerGate } from "@/components/DisclaimerGate";
 import { JsonLd } from "@/components/JsonLd";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata = {
@@ -83,6 +85,8 @@ export default function RootLayout({ children }) {
         <Footer />
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
