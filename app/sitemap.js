@@ -9,6 +9,7 @@ export default function sitemap() {
     { url: SITE_URL + "/peptides", changeFrequency: "weekly", priority: 0.9 },
     { url: SITE_URL + "/concerns", changeFrequency: "weekly", priority: 0.9 },
     { url: SITE_URL + "/stacks", changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL + "/course", changeFrequency: "weekly", priority: 0.9 },
     { url: SITE_URL + "/intro", changeFrequency: "monthly", priority: 0.7 },
     { url: SITE_URL + "/calc", changeFrequency: "monthly", priority: 0.6 },
     { url: SITE_URL + "/ask", changeFrequency: "monthly", priority: 0.6 },

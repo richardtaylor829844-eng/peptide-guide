@@ -9,6 +9,7 @@ const ITEMS = [
   { href: "/my-stack", label: "Stack" },
   { href: "/calc", label: "Calc" },
   { href: "/ask", label: "Ask AI" },
+  { href: "/course", label: "Course" },
 ];
 
 export function Nav() {

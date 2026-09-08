@@ -20,6 +20,7 @@ export function Footer() {
             <Link href="/concerns" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>Concerns</Link>
             <Link href="/stacks" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>Stacks</Link>
             <Link href="/intro" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>About Peptides</Link>
+            <Link href="/course" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>The Course</Link>
             <Link href="/disclaimer" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>Disclaimer</Link>
             <Link href="/privacy" style={{ fontSize: 10, color: S.d, borderBottom: "1px dotted " + S.m }}>Privacy Policy</Link>
           </div>
