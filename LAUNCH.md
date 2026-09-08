@@ -9,7 +9,7 @@ Written 8 Sept 2026. Course page: https://peptidereferenceguide.com/course
 
 I cannot create the account. Here is exactly what to do.
 
-1. Go to dashboard.stripe.com and start a new account under your own name or the LLC once it exists (step 3). If the LLC is a week away, start it as a sole proprietor and update the details later; Stripe allows this.
+1. Go to dashboard.stripe.com and start a new account under **RT LLC** (your existing Idaho LLC). Have its EIN and the business bank account details ready; Stripe asks for both.
 2. When it asks what you sell, use this wording. It is accurate and it is the framing that matters to their reviewers:
    - Industry: **Education** → **Online courses / e-learning**
    - Description: *"An online course about peptide research: how research compounds are sourced, handled and studied. Educational content only. We sell no physical products and no supplements."*
@@ -30,16 +30,17 @@ Find one who works with supplement, telehealth or wellness companies. Search ter
 
 Send this before the call:
 
-> I run a free reference website about peptide research compounds and am launching a paid online course about them. The course explains how these compounds are sourced, handled and commonly used, and what the research shows. It does not sell any products, has no vendor links and takes no commissions. Members will be able to ask questions about the material. I want to confirm (a) that publishing this as education keeps me outside FDA and state drug-marketing rules, (b) where a members' Q&A has to stop so it is not practising medicine, (c) what disclaimers and terms the course needs, and (d) whether an LLC plus a media liability policy is the right structure. Three free sample lessons are at https://peptidereferenceguide.com/course.
+> I run a free reference website about peptide research compounds and am launching a paid online course about them. The course explains how these compounds are sourced, handled and commonly used, and what the research shows. It does not sell any products, has no vendor links and takes no commissions. Members will be able to ask questions about the material. I want to confirm (a) that publishing this as education keeps me outside FDA and state drug-marketing rules, (b) where a members' Q&A has to stop so it is not practising medicine, (c) what disclaimers and terms the course needs, and (d) whether running it under my existing Idaho LLC (RT LLC) plus a media liability policy is the right structure. Three free sample lessons are at https://peptidereferenceguide.com/course.
 
 Take notes. Whatever they say about the Q&A line goes into the course terms and into how the digest answers questions.
 
-## 3. LLC and insurance (you, one afternoon)
+## 3. Insurance under RT LLC (you, one hour)
 
-- **Idaho LLC**: sosbiz.idaho.gov → Business → Form a new business → Limited Liability Company. Around $100 online. You can be your own registered agent at an Idaho street address. Pick a name that is not "Peptide Reference Guide" if you want the brand separate from the entity; anything works.
-- **EIN**: irs.gov, free, ten minutes, needed for the bank account and Stripe.
-- **Bank account**: any business checking. Stripe pays out to it.
-- **Insurance**: search *"media liability insurance online course"* or *"professional liability for content creators"*. Hiscox, Next and Thimble all quote online. What you want covered: content-based claims (defamation, negligent information) and general liability. Expect a few hundred dollars a year. Bring the lawyer's notes to the application.
+You already have RT LLC in Idaho, so this step is short.
+
+- **Confirm the LLC has an EIN and a business bank account.** Stripe pays out to the account and asks for the EIN at signup. If either is missing: irs.gov for the EIN (free, ten minutes), any business checking for the account.
+- **Insurance**: search *"media liability insurance online course"* or *"professional liability for content creators"*. Hiscox, Next and Thimble all quote online. Apply in RT LLC's name. What you want covered: content-based claims (defamation, negligent information) and general liability. Expect a few hundred dollars a year. Bring the lawyer's notes to the application.
+- The course site can stay branded Peptide Reference Guide; RT LLC is the entity behind it. Add "Peptide Reference Guide is operated by RT LLC, Boise, Idaho" to the site's terms when the lawyer signs off on the wording.
 
 ## 4. The founder email (you send, I wrote it)
 
