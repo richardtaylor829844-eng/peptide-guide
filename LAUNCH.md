@@ -57,7 +57,7 @@ The list is in Formspree (the Ask AI signups). Export it as CSV from the Formspr
 >
 > I've spent the last few months writing the thing the site couldn't be: the decisions, in order. Which vendor. Whether the certificate is real. How much water. What to run first. What a normal side effect looks like against one that means stop. It's a course, it's written from the vendor side of this market, and it does not sell you anything at the end. No vendor links, no codes, ever.
 >
-> The first three lessons are free and up now:
+> Five lessons are free and up now, including the one on reading a lab report:
 > https://peptidereferenceguide.com/course
 >
 > The first 100 people in get it for $97 instead of $197, every lesson as it's finished, every update forever, and the members' digest for a year. Reserving is free and doesn't charge you anything. When it opens you get a link and a week to decide.
