@@ -7,6 +7,9 @@ import { S } from "@/lib/data";
 import { COURSE, MODULES, lessonBySlug, lessonUrl, neighbours } from "@/lib/course";
 import { hasCourseAccess } from "@/lib/course-access";
 import { Figure } from "@/components/CourseFigures";
+import { ModuleQuiz } from "@/components/ModuleQuiz";
+import { QUIZZES, CHECKLISTS } from "@/lib/course-extras";
+import { audioUrlFor } from "@/lib/course-audio";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +31,11 @@ const GRADE = { A: "#4ADE80", B: "#5EEAD4", C: "#FCD34D", D: "#F87171" };
 function Block({ b }) {
   if (b.t === "h") return <h2 style={{ fontSize: 18, fontWeight: 700, margin: "26px 0 8px", color: S.t }}>{b.text}</h2>;
   if (b.t === "fig") return <Figure id={b.id} caption={b.caption} />;
+  if (b.t === "download") return (
+    <a href={b.href} download style={{ display: "inline-flex", alignItems: "center", gap: 8, margin: "6px 0 14px", background: S.ab, border: "1px solid " + S.abr, color: S.a, padding: "10px 14px", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>
+      ⬇ {b.label}
+    </a>
+  );
   if (b.t === "steps") return (
     <ol style={{ listStyle: "none", margin: "6px 0 14px", padding: 0, display: "grid", gap: 8 }}>
       {b.items.map((x, i) => (
@@ -82,6 +90,10 @@ export default async function LessonPage({ params, searchParams }) {
   const unlocked = l.free || (await hasCourseAccess());
   const { prev, next } = neighbours(m.slug, l.slug);
   const body = unlocked ? l.body : l.body.slice(0, 1);
+  const audio = unlocked ? audioUrlFor(m.slug, l.slug) : null;
+  const isLast = m.lessons[m.lessons.length - 1].slug === l.slug;
+  const quiz = unlocked && isLast ? QUIZZES[m.slug] : null;
+  const checklist = CHECKLISTS[m.slug];
 
   return (
     <article style={{ maxWidth: 720, margin: "0 auto" }}>
@@ -102,7 +114,19 @@ export default async function LessonPage({ params, searchParams }) {
           <strong style={{ color: S.a }}>You are in.</strong> Every lesson is unlocked on this browser for a year. To read on another device, open the confirmation link from your receipt there; it unlocks the same way. Questions about the material: reply to any course email.
         </div>
       )}
+      {audio && (
+        <div style={{ margin: "0 0 18px", padding: "10px 12px", borderRadius: 10, background: S.surf, border: "1px solid " + S.br }}>
+          <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".12em", color: S.a, marginBottom: 6 }}>LISTEN INSTEAD · {l.minutes} MIN</div>
+          <audio controls preload="none" src={audio} style={{ width: "100%", height: 36 }} />
+        </div>
+      )}
       {body.map((b, i) => <Block key={i} b={b} />)}
+      {quiz && <ModuleQuiz title={`Module ${String(m.n).padStart(2, "0")}: ${m.title}`} questions={quiz} />}
+      {unlocked && checklist && isLast && (
+        <Link href={`/course/checklists/${m.slug}`} style={{ display: "block", marginTop: 14, padding: "12px 14px", borderRadius: 10, background: S.card, border: "1px solid " + S.br, fontSize: 13, color: S.t }}>
+          <strong style={{ color: S.a }}>Printable checklist:</strong> {checklist.title} →
+        </Link>
+      )}
 
       {!unlocked && (
         <Card style={{ marginTop: 10, background: S.surf }}>

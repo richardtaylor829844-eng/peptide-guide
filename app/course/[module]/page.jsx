@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Card } from "@/components/Card";
 import { S } from "@/lib/data";
 import { MODULES, moduleBySlug, lessonUrl } from "@/lib/course";
+import { CHECKLISTS } from "@/lib/course-extras";
 
 export async function generateStaticParams() {
   return MODULES.map((m) => ({ module: m.slug }));
@@ -25,6 +26,11 @@ export default async function ModulePage({ params }) {
       <div style={{ fontSize: 11, color: S.a, fontWeight: 700, letterSpacing: ".08em", marginBottom: 4 }}>MODULE {String(m.n).padStart(2, "0")}</div>
       <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 8px", lineHeight: 1.2 }}>{m.title}</h1>
       <p style={{ fontSize: 14, color: S.d, lineHeight: 1.6, marginBottom: 20 }}>{m.summary}</p>
+      {CHECKLISTS[m.slug] && (
+        <Link href={`/course/checklists/${m.slug}`} style={{ display: "block", marginBottom: 12, padding: "10px 14px", borderRadius: 10, background: S.card, border: "1px solid " + S.abr, fontSize: 13, color: S.t }}>
+          <strong style={{ color: S.a }}>One-page checklist:</strong> {CHECKLISTS[m.slug].title}{CHECKLISTS[m.slug].free ? " · free" : ""} →
+        </Link>
+      )}
       <Card>
         {m.lessons.map((l) => {
           const written = !!l.body;

@@ -4,6 +4,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { FounderReserve } from "@/components/FounderReserve";
 import { S, SITE_URL, SITE_NAME } from "@/lib/data";
 import { COURSE, MODULES, READY_LESSON_COUNT, TOTAL_LESSON_COUNT, TOTAL_MINUTES, lessonUrl } from "@/lib/course";
+import { GoalPicker } from "@/components/GoalPicker";
+import { GOALS } from "@/lib/course-extras";
 
 export const metadata = {
   title: `${COURSE.name} — Sourcing, handling and how each peptide is used`,
@@ -25,6 +27,7 @@ const P = ({ children, dim }) => (
 );
 
 export default function CoursePage() {
+  const lessonIndex = Object.fromEntries(MODULES.flatMap((m) => m.lessons.map((l) => [`${m.slug}/${l.slug}`, { title: l.title, minutes: l.minutes, free: l.free }])));
   const hours = Math.round(TOTAL_MINUTES / 60 * 10) / 10;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -56,6 +59,8 @@ export default function CoursePage() {
         <FounderReserve />
       </div>
 
+      <div style={{ marginBottom: 14 }}><GoalPicker goals={GOALS} lessons={lessonIndex} /></div>
+
       {/* what it is */}
       <Card style={{ marginBottom: 14 }}>
         <H2>The reference site tells you what a compound is. This tells you what to do with that.</H2>
@@ -65,8 +70,8 @@ export default function CoursePage() {
           {[
             [`${MODULES.length}`, "modules"],
             [`${TOTAL_LESSON_COUNT}`, "lessons"],
-            [`~${hours} h`, "of material at launch"],
-            ["Every update", "included, forever"],
+            [`~${hours} h`, "to read, or listen"],
+            ["12", "diagrams, 7 quizzes, 7 checklists"],
           ].map(([n, l]) => (
             <div key={l} style={{ background: S.surf, borderRadius: 8, padding: "12px 14px" }}>
               <div style={{ fontSize: 20, fontWeight: 700, color: S.a }}>{n}</div>
@@ -104,6 +109,20 @@ export default function CoursePage() {
           </div>
         </Card>
       ))}
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 8, margin: "18px 0 6px" }}>
+        {[
+          ["/course/checklists/sourcing", "Buying checklist", "free, printable"],
+          ["/course/qa", "Members' questions", "searchable answers"],
+          ["/course/handling/keeping-records", "Log template", "in the records lesson"],
+          ["/course/terms", "Course terms", "refunds and the line"],
+        ].map(([href, t, sub]) => (
+          <Link key={href} href={href} style={{ background: S.card, border: "1px solid " + S.br, borderRadius: 10, padding: "10px 12px" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: S.t }}>{t}</div>
+            <div style={{ fontSize: 11, color: S.m }}>{sub}</div>
+          </Link>
+        ))}
+      </div>
 
       {/* who for */}
       <Card style={{ marginTop: 26, marginBottom: 14 }}>
@@ -150,8 +169,10 @@ export default function CoursePage() {
           ["Do you sell peptides?", "No. Nothing on this site or in the course is for sale except the course. No vendor links, no codes, no commissions."],
           ["Will it tell me what to take?", "No. It explains how each compound is commonly used and why, what the research shows, and what people report. Decisions about you belong with you and a clinician who knows your history."],
           ["Is this medical advice?", "No. It is published education about research compounds, most of which are not approved for human use. It is not a substitute for a physician."],
+          ["Can I listen instead of read?", "Yes. Every lesson has a narrated version at the top for members. It is a synthetic voice for now; a recorded one is on the list."],
           ["Why is it not free like the rest of the site?", "The reference pages are free because they are reference. This is weeks of writing, reading, and keeping current, and the price is what makes keeping it current possible."],
           ["What if I already know the basics?", "Then modules one and two will still probably change how you buy. If they do not, the refund covers it."],
+          ["Where are the full terms?", "On the course terms page: what you are buying, the fourteen-day refund, and the education-only line, in plain English."],
         ].map(([q, a]) => (
           <div key={q} style={{ padding: "10px 0", borderTop: "1px solid " + S.br }}>
             <div style={{ fontSize: 14, fontWeight: 600, color: S.t, marginBottom: 3 }}>{q}</div>
