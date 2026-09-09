@@ -6,6 +6,7 @@ import { FounderReserve } from "@/components/FounderReserve";
 import { S } from "@/lib/data";
 import { COURSE, MODULES, lessonBySlug, lessonUrl, neighbours } from "@/lib/course";
 import { hasCourseAccess } from "@/lib/course-access";
+import { Figure } from "@/components/CourseFigures";
 
 export const dynamic = "force-dynamic";
 
@@ -22,8 +23,21 @@ export async function generateMetadata({ params }) {
   };
 }
 
+const GRADE = { A: "#4ADE80", B: "#5EEAD4", C: "#FCD34D", D: "#F87171" };
+
 function Block({ b }) {
-  if (b.t === "h") return <h2 style={{ fontSize: 17, fontWeight: 700, margin: "22px 0 8px", color: S.t }}>{b.text}</h2>;
+  if (b.t === "h") return <h2 style={{ fontSize: 18, fontWeight: 700, margin: "26px 0 8px", color: S.t }}>{b.text}</h2>;
+  if (b.t === "fig") return <Figure id={b.id} caption={b.caption} />;
+  if (b.t === "steps") return (
+    <ol style={{ listStyle: "none", margin: "6px 0 14px", padding: 0, display: "grid", gap: 8 }}>
+      {b.items.map((x, i) => (
+        <li key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", background: S.surf, border: "1px solid " + S.br, borderRadius: 10, padding: "10px 12px" }}>
+          <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 13, background: S.a, color: "#0B1120", fontWeight: 800, fontSize: 13, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
+          <span style={{ fontSize: 14, lineHeight: 1.6, color: S.t }}>{x}</span>
+        </li>
+      ))}
+    </ol>
+  );
   if (b.t === "list") return (
     <ul style={{ margin: "0 0 12px", paddingLeft: 20, fontSize: 14, color: S.t, lineHeight: 1.7 }}>
       {b.items.map((x, i) => <li key={i} style={{ marginBottom: 6 }}>{x}</li>)}
@@ -32,10 +46,28 @@ function Block({ b }) {
   if (b.t === "note" || b.t === "warn") {
     const warn = b.t === "warn";
     return (
-      <div style={{ margin: "14px 0", padding: "12px 14px", borderRadius: 8, fontSize: 13, lineHeight: 1.6, color: S.t, background: warn ? S.wb : S.ab, border: "1px solid " + (warn ? S.wbr : S.abr) }}>
+      <div style={{ margin: "14px 0", padding: "12px 14px 12px 16px", borderRadius: 8, fontSize: 13, lineHeight: 1.6, color: S.t, background: warn ? S.wb : S.ab, borderLeft: "4px solid " + (warn ? S.w : S.a) }}>
+        <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".1em", color: warn ? S.w : S.a, display: "block", marginBottom: 3 }}>{warn ? "WATCH OUT" : "WORTH KNOWING"}</span>
         {b.text}
       </div>
     );
+  }
+  // Evidence paragraphs get a grade badge so the strength is visible at a glance.
+  const m = /^The evidence:\s*([ABCD])\b/.exec(b.text || "");
+  if (m) {
+    const g = m[1];
+    return (
+      <p style={{ fontSize: 14, color: S.t, lineHeight: 1.75, margin: "0 0 12px", display: "flex", gap: 10, alignItems: "flex-start" }}>
+        <span style={{ flexShrink: 0, marginTop: 2, width: 26, height: 26, borderRadius: 6, background: GRADE[g], color: "#0B1120", fontWeight: 800, fontSize: 14, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{g}</span>
+        <span>{b.text.replace(/^The evidence:\s*/, "Evidence: ")}</span>
+      </p>
+    );
+  }
+  // Compound entries: "What it is." "How people commonly use it." etc. get a bold lead.
+  const lead = /^(What it is|How people commonly use it|What people notice|Side effects|Interactions|Who stays away)([^.]*)\.\s/.exec(b.text || "");
+  if (lead) {
+    const head = lead[1] + lead[2] + ".";
+    return <p style={{ fontSize: 14, color: S.t, lineHeight: 1.75, margin: "0 0 12px" }}><strong style={{ color: S.a }}>{head}</strong> {b.text.slice(head.length).trim()}</p>;
   }
   return <p style={{ fontSize: 14, color: S.t, lineHeight: 1.75, margin: "0 0 12px" }}>{b.text}</p>;
 }
@@ -58,8 +90,11 @@ export default async function LessonPage({ params, searchParams }) {
         <Link href={`/course/${m.slug}`} style={{ background: S.surf, border: "1px solid " + S.br, color: S.d, padding: "8px 14px", borderRadius: 8, fontFamily: S.f, fontSize: 12, fontWeight: 500 }}>Module {String(m.n).padStart(2, "0")}: {m.title}</Link>
       </div>
 
-      <div style={{ fontSize: 11, color: S.m, marginBottom: 6 }}>{l.minutes} min read {l.free ? "· free lesson" : ""}</div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2, margin: "0 0 6px" }}>{l.title}</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+        <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".12em", color: S.a, background: S.ab, border: "1px solid " + S.abr, padding: "3px 8px", borderRadius: 4 }}>MODULE {String(m.n).padStart(2, "0")}</span>
+        <span style={{ fontSize: 11, color: S.m }}>{l.minutes} min read {l.free ? "· free lesson" : ""}</span>
+      </div>
+      <h1 style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.15, margin: "0 0 6px" }}>{l.title}</h1>
       <p style={{ fontSize: 14, color: S.d, lineHeight: 1.6, margin: "0 0 22px" }}>{l.summary}</p>
 
       {welcome && unlocked && (
