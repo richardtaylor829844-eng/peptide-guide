@@ -138,7 +138,7 @@ function Reconstitution() {
 /* 2.2  Syringe units */
 function Syringe() {
   return (
-    <svg viewBox="0 0 640 190" role="img" aria-label="An insulin syringe marked in units, showing that 10 units is 0.1 millilitres">
+    <svg viewBox="0 0 640 190" role="img" aria-label="An insulin syringe marked in units, showing that 10 units is 0.1 milliliters">
       <rect x="60" y="70" width="420" height="40" rx="8" fill={CARD} stroke={M} strokeWidth="1.5" />
       <rect x="60" y="76" width="42" height="28" rx="4" fill={A} opacity="0.85" />
       <rect x="480" y="82" width="90" height="16" fill={M} />
@@ -150,7 +150,7 @@ function Syringe() {
       {txt(81, 133, "10 units", { a: "middle", w: 700, fill: A })}
       {txt(81, 148, "= 0.1 mL", { a: "middle", size: 11, fill: D })}
       {txt(480, 133, "100 units = 1 mL", { a: "middle", w: 700 })}
-      {txt(480, 148, "so millilitres × 100 = units", { a: "middle", size: 11, fill: D })}
+      {txt(480, 148, "so milliliters × 100 = units", { a: "middle", size: 11, fill: D })}
       {txt(320, 178, "5 mg vial + 2 mL water = 2.5 mg/mL.  A 250 mcg dose = 0.1 mL = 10 units.", { a: "middle", size: 11, fill: M })}
     </svg>
   );

@@ -31,6 +31,22 @@ const GRADE = { A: "#4ADE80", B: "#5EEAD4", C: "#FCD34D", D: "#F87171" };
 function Block({ b }) {
   if (b.t === "h") return <h2 style={{ fontSize: 18, fontWeight: 700, margin: "26px 0 8px", color: S.t }}>{b.text}</h2>;
   if (b.t === "fig") return <Figure id={b.id} caption={b.caption} />;
+  if (b.t === "card") {
+    const g = (b.grade || "D").trim()[0];
+    return (
+      <div style={{ margin: "8px 0 16px", background: S.surf, border: "1px solid " + S.br, borderRadius: 12, padding: "12px 14px", display: "grid", gridTemplateColumns: "auto 1fr", gap: "10px 14px", alignItems: "start" }}>
+        <div style={{ width: 44, height: 44, borderRadius: 10, background: GRADE[g] || GRADE.D, color: "#0B1120", fontWeight: 800, fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1, textAlign: "center" }}>{b.grade}</div>
+        <div>
+          <div style={{ fontSize: 13, color: S.t, lineHeight: 1.5, marginBottom: 8 }}>{b.note}</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "6px 14px", fontSize: 12 }}>
+            {[["How", b.route], ["How often", b.often], ["How long", b.length], ["Tested sport", b.wada]].map(([k, v]) => (
+              <div key={k}><div style={{ fontSize: 10, letterSpacing: ".1em", fontWeight: 800, color: v === "Banned" ? S.w : S.m, marginBottom: 1 }}>{k.toUpperCase()}</div><div style={{ color: v === "Banned" ? S.w : S.d, lineHeight: 1.45 }}>{v}</div></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (b.t === "download") return (
     <a href={b.href} download style={{ display: "inline-flex", alignItems: "center", gap: 8, margin: "6px 0 14px", background: S.ab, border: "1px solid " + S.abr, color: S.a, padding: "10px 14px", borderRadius: 8, fontSize: 13, fontWeight: 600 }}>
       ⬇ {b.label}

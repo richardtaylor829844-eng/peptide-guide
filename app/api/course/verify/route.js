@@ -45,7 +45,7 @@ export async function GET(req) {
       headers: { Authorization: `Bearer ${key}` },
       cache: "no-store",
     });
-    if (!r.ok) return fail("Stripe did not recognise this checkout. If you were charged, reply to your receipt and it will be sorted by hand.", 404);
+    if (!r.ok) return fail("Stripe did not recognize this checkout. If you were charged, reply to your receipt and it will be sorted by hand.", 404);
     session = await r.json();
   } catch {
     return fail("Could not reach Stripe. Try the link again in a minute.", 502);

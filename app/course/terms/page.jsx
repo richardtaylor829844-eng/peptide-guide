@@ -39,7 +39,7 @@ export default function CourseTermsPage() {
 
       <Card style={{ marginBottom: 12 }}>
         <H>Refunds</H>
-        <P>If the course is not what you expected, say so by replying to your receipt within fourteen days of purchase and the full amount is refunded, no questions. After fourteen days, purchases are final. Membership payments after the founder year can be cancelled at any time and are not refunded for the period already paid.</P>
+        <P>If the course is not what you expected, say so by replying to your receipt within fourteen days of purchase and the full amount is refunded, no questions. After fourteen days, purchases are final. Membership payments after the founder year can be canceled at any time and are not refunded for the period already paid.</P>
       </Card>
 
       <Card style={{ marginBottom: 12 }}>
