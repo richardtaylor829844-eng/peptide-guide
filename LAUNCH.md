@@ -14,7 +14,7 @@ Everything else is built. I cannot create the account. Do this once:
    - Industry: **Education** → **Online courses / e-learning**
    - Description: *"An online course about peptide research: how research compounds are sourced, handled and studied. Educational content only. We sell no physical products and no supplements."*
    - Website: https://peptidereferenceguide.com/course
-3. **Products → Add product**: name `The Peptide Course, founding member`, price `$97.00`, one-time.
+3. **Products → Add product**: name `The Peptide Course, founding member`, price `$29.00` (list $79 after the first 100), one-time.
 4. **Payment links → New** for that product. Then, in the link's settings, **After payment → Don't show confirmation page, redirect customers to your website**, and paste exactly:
    `https://peptidereferenceguide.com/api/course/verify?session_id={CHECKOUT_SESSION_ID}`
    That redirect is what unlocks the course the second they pay. Keep "collect customer email" on.
@@ -60,7 +60,7 @@ The list is in Formspree (the Ask AI signups). Export it as CSV from the Formspr
 > Five lessons are free and up now, including the one on reading a lab report:
 > https://peptidereferenceguide.com/course
 >
-> The first 100 people in get it for $97 instead of $197, every lesson as it's finished, every update forever, and the members' digest for a year. Reserving is free and doesn't charge you anything. When it opens you get a link and a week to decide.
+> The first 100 people in get it for $29 instead of $79, every lesson as it's finished, every update forever, and the members' digest for a year. Reserving is free and doesn't charge you anything. When it opens you get a link and a week to decide.
 >
 > If you've ever bought a vial and wondered whether it was real, module one alone will change how you buy.
 >
@@ -78,7 +78,7 @@ Send it once. Reply to every response personally. The number of reservations tha
 ## 6. Founder launch (both of us)
 
 The content is done and access is automatic on purchase:
-1. When the 100th founder buys, or whenever you decide, change the Payment Link price to $197 in Stripe and flip `COURSE.status` to `"live"` in `lib/course.js`.
+1. When the 100th founder buys, or whenever you decide, change the Payment Link price to $79 in Stripe and flip `COURSE.status` to `"live"` in `lib/course.js`.
 2. The founder code in `.env.local` (`COURSE_ACCESS_CODE`) is now only for people who reserved by email before checkout existed, and for hand-fixing an access problem.
 3. Collect every question buyers ask. Confused questions are defects in the lessons. Fix, then open to full price.
 
