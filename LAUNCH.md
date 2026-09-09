@@ -90,4 +90,5 @@ The content is done and access is automatic on purchase:
 - Access gate: `lib/course-access.js`, `app/api/course/unlock/route.js`
 - Env (Vercel, project `peptide-guide`, production): `COURSE_ACCESS_CODE`, `COURSE_COOKIE_TOKEN`; and once Stripe exists, `NEXT_PUBLIC_COURSE_CHECKOUT_URL` and `STRIPE_SECRET_KEY` (restricted, Checkout Sessions read)
 - Purchase → access: `app/api/course/verify/route.js`
+- Extras: quizzes, checklists, goal paths, Q&A seed in `lib/course-extras.js`; terms at `/course/terms`; narration built by `scripts/audio-text.mjs` then `scripts/audio-build.sh` (swap the voice there when a real TTS key exists)
 - Deploys on push to `main`. Two Vercel projects exist; the domain is on `peptide-guide`. Ignore `peptide-reference-guide`.
