@@ -68,15 +68,13 @@ Send it once. Reply to every response personally. The number of reservations tha
 
 ## 5. Writing (me)
 
-- Module 2, handling: **done 8 Sept.**
-- Module 3, the compounds by goal: next. Ten lessons, the longest module.
-- Modules 4 to 6 after that.
-
-Founders get lessons as they land, so writing continues after the pre-sale opens.
+- All six modules, 36 lessons: **written 8 Sept.** Three are free.
+- What remains on the writing side is revision from founder questions, and updates as evidence moves.
+- Richard's read-through: the compound lessons in module 3 carry reported dose ranges and evidence grades. Read them once as the owner before the founder email goes out, and flag anything that reads wrong.
 
 ## 6. Founder launch (both of us)
 
-When modules 0 to 3 are written:
+The content is done, so this is gated only on Stripe:
 1. Flip `COURSE.status` to `"live"` in `lib/course.js` when the founder window closes and the price goes to $197.
 2. Email founders the code. It is in `.env.local` as `COURSE_ACCESS_CODE`. One code for all founders for now; per-person codes come with the real checkout.
 3. Collect every question they ask. Confused questions are defects in the lessons. Fix, then open to full price.

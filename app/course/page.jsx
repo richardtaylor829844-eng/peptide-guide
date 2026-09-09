@@ -79,7 +79,7 @@ export default function CoursePage() {
       {/* curriculum */}
       <div style={{ margin: "26px 0 10px", display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
         <H2>What is in it</H2>
-        <div style={{ fontSize: 11, color: S.m }}>{READY_LESSON_COUNT} of {TOTAL_LESSON_COUNT} lessons written so far. Free lessons are marked.</div>
+        <div style={{ fontSize: 11, color: S.m }}>{READY_LESSON_COUNT === TOTAL_LESSON_COUNT ? `All ${TOTAL_LESSON_COUNT} lessons written. Free lessons are marked.` : `${READY_LESSON_COUNT} of ${TOTAL_LESSON_COUNT} lessons written so far. Free lessons are marked.`}</div>
       </div>
       {MODULES.map((m) => (
         <Card key={m.slug} style={{ marginBottom: 10, padding: "18px 20px" }}>
