@@ -52,7 +52,7 @@ export default function CoursePage() {
       {/* hero */}
       <div style={{ padding: "12px 0 24px" }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11, color: S.a, background: S.ab, border: "1px solid " + S.abr, padding: "4px 10px", borderRadius: 999, marginBottom: 14, fontWeight: 600 }}>
-          {COURSE.status === "presale" ? `Founding members · first ${COURSE.founderSeats} at $${COURSE.founderPrice} · then $${COURSE.price}` : "Open"}
+          {COURSE.status === "presale" ? `Founder price · first ${COURSE.founderSeats} buyers · $${COURSE.founderPrice} instead of $${COURSE.price}` : "Open"}
         </div>
         <h1 style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.15, margin: "0 0 12px" }}>{COURSE.name}</h1>
         <p style={{ fontSize: 16, color: S.d, lineHeight: 1.65, margin: "0 0 20px", maxWidth: 600 }}>{COURSE.tagline}</p>
@@ -157,7 +157,7 @@ export default function CoursePage() {
       {/* founder terms */}
       <Card style={{ marginBottom: 14 }}>
         <H2>Founding members</H2>
-        <P>The first {COURSE.founderSeats} people pay ${COURSE.founderPrice} instead of ${COURSE.price}, get every lesson immediately, keep every update for as long as the course exists, and get the members' digest and question line for the first year at no charge (${COURSE.membershipPrice} a month after that, optional, cancel any time).</P>
+        <P>The first {COURSE.founderSeats} people pay <s style={{ color: S.m }}>${COURSE.price}</s> <strong style={{ color: S.a }}>${COURSE.founderPrice}</strong>, get every lesson immediately, keep every update for as long as the course exists, and get the members' digest and question line for the first year at no charge (${COURSE.membershipPrice} a month after that, optional, cancel any time).</P>
         <P dim>Payment is one time, through Stripe, and access is immediate: the confirmation page unlocks every lesson on this browser, and the same link unlocks it anywhere else. If it is not what you expected, say so within fourteen days and the whole amount comes back.</P>
         <div style={{ marginTop: 12 }}><FounderReserve compact /></div>
       </Card>

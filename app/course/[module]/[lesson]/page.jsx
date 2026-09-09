@@ -149,7 +149,7 @@ export default async function LessonPage({ params, searchParams }) {
           <div style={{ fontSize: 16, fontWeight: 700, color: S.t, marginBottom: 6 }}>The rest of this lesson is for members</div>
           <p style={{ fontSize: 13, color: S.d, lineHeight: 1.6, margin: "0 0 14px" }}>
             {COURSE.status === "presale"
-              ? `Founding members get every lesson, now, at $${COURSE.founderPrice} instead of $${COURSE.price}.`
+              ? `Every lesson, the audio, the checklists and the quizzes, for $${COURSE.founderPrice} instead of $${COURSE.price} while the founder price lasts.`
               : `Join the course to read every lesson and keep every update.`}
           </p>
           <FounderReserve compact />

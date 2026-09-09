@@ -20,7 +20,7 @@ export function FounderReserve({ compact = false }) {
         href={COURSE.checkoutUrl}
         style={{ display: "inline-block", background: "linear-gradient(135deg,#5EEAD4,#38BDF8)", color: "#0B1120", padding: "13px 24px", borderRadius: 8, fontFamily: S.f, fontSize: 14, fontWeight: 700 }}
       >
-        Join as a founding member, ${COURSE.founderPrice} →
+        Get the course, <s style={{ opacity: .6, fontWeight: 500 }}>${COURSE.price}</s> ${COURSE.founderPrice} →
       </a>
     );
   }
