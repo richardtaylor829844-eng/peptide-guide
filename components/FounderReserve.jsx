@@ -53,7 +53,7 @@ export function FounderReserve({ compact = false }) {
   if (state === "done") {
     return (
       <div style={{ background: S.ab, border: "1px solid " + S.abr, borderRadius: 10, padding: "14px 16px", fontSize: 13, color: S.t, lineHeight: 1.6 }}>
-        <strong style={{ color: S.a }}>You are on the founder list.</strong> Nothing has been charged. When the course opens you get the first email, the ${COURSE.founderPrice} price, and a week to decide before it goes to ${COURSE.price}.
+        <strong style={{ color: S.a }}>You are on the founder list.</strong> Nothing has been charged. Checkout is being connected; you get the first email with the ${COURSE.founderPrice} link, and a week to decide before it goes to ${COURSE.price}.
       </div>
     );
   }
@@ -78,7 +78,7 @@ export function FounderReserve({ compact = false }) {
       {error && <div style={{ flexBasis: "100%", fontSize: 12, color: S.w }}>{error}</div>}
       {!compact && (
         <div style={{ flexBasis: "100%", fontSize: 11, color: S.m, lineHeight: 1.5 }}>
-          No card now. You are reserving a place in the first {COURSE.founderSeats}, and the price, not paying for it.
+          No card now. Checkout goes live within days; this holds your place in the first {COURSE.founderSeats} at the founder price.
         </div>
       )}
     </form>

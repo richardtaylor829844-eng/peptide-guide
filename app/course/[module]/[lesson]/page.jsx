@@ -40,8 +40,10 @@ function Block({ b }) {
   return <p style={{ fontSize: 14, color: S.t, lineHeight: 1.75, margin: "0 0 12px" }}>{b.text}</p>;
 }
 
-export default async function LessonPage({ params }) {
+export default async function LessonPage({ params, searchParams }) {
   const { module: ms, lesson: ls } = await params;
+  const sp = (await searchParams) || {};
+  const welcome = sp.welcome === "1";
   const hit = lessonBySlug(ms, ls);
   if (!hit || !hit.lesson.body) notFound();
   const { module: m, lesson: l } = hit;
@@ -60,6 +62,11 @@ export default async function LessonPage({ params }) {
       <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2, margin: "0 0 6px" }}>{l.title}</h1>
       <p style={{ fontSize: 14, color: S.d, lineHeight: 1.6, margin: "0 0 22px" }}>{l.summary}</p>
 
+      {welcome && unlocked && (
+        <div style={{ margin: "0 0 18px", padding: "12px 14px", borderRadius: 8, fontSize: 13, lineHeight: 1.6, color: S.t, background: S.ab, border: "1px solid " + S.abr }}>
+          <strong style={{ color: S.a }}>You are in.</strong> Every lesson is unlocked on this browser for a year. To read on another device, open the confirmation link from your receipt there; it unlocks the same way. Questions about the material: reply to any course email.
+        </div>
+      )}
       {body.map((b, i) => <Block key={i} b={b} />)}
 
       {!unlocked && (
@@ -67,7 +74,7 @@ export default async function LessonPage({ params }) {
           <div style={{ fontSize: 16, fontWeight: 700, color: S.t, marginBottom: 6 }}>The rest of this lesson is for members</div>
           <p style={{ fontSize: 13, color: S.d, lineHeight: 1.6, margin: "0 0 14px" }}>
             {COURSE.status === "presale"
-              ? `Founding members get every lesson as it is written, at $${COURSE.founderPrice} instead of $${COURSE.price}. Reserving is free and charges nothing.`
+              ? `Founding members get every lesson, now, at $${COURSE.founderPrice} instead of $${COURSE.price}.`
               : `Join the course to read every lesson and keep every update.`}
           </p>
           <FounderReserve compact />

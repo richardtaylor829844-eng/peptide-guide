@@ -1,26 +1,29 @@
 # The Peptide Course: launch checklist
 
-Six steps. The first and fourth are the ones that block everything else.
+Six steps. Only the first blocks a sale. The content is live and the checkout wiring is built.
 Written 8 Sept 2026. Course page: https://peptidereferenceguide.com/course
 
 ---
 
-## 1. Stripe account and the founder payment link (you, ~30 minutes)
+## 1. Stripe: the only thing between you and a sale (you, ~30 minutes)
 
-I cannot create the account. Here is exactly what to do.
+Everything else is built. I cannot create the account. Do this once:
 
-1. Go to dashboard.stripe.com and start a new account under **RT LLC** (your existing Idaho LLC). Have its EIN and the business bank account details ready; Stripe asks for both.
-2. When it asks what you sell, use this wording. It is accurate and it is the framing that matters to their reviewers:
+1. Go to dashboard.stripe.com and start an account under **RT LLC**. Have the EIN and the business bank account ready.
+2. When it asks what you sell, use this wording:
    - Industry: **Education** → **Online courses / e-learning**
    - Description: *"An online course about peptide research: how research compounds are sourced, handled and studied. Educational content only. We sell no physical products and no supplements."*
    - Website: https://peptidereferenceguide.com/course
-3. Once approved, create the product: **Products → Add product**
-   - Name: `The Peptide Course, founding member`
-   - Price: `$97.00`, one-time
-4. Create a Payment Link for that product: **Payment links → New**. Turn on "collect customer email". Leave everything else default.
-5. Send me the link. I set one environment variable and the reserve form becomes a buy button. Nothing else changes.
+3. **Products → Add product**: name `The Peptide Course, founding member`, price `$97.00`, one-time.
+4. **Payment links → New** for that product. Then, in the link's settings, **After payment → Don't show confirmation page, redirect customers to your website**, and paste exactly:
+   `https://peptidereferenceguide.com/api/course/verify?session_id={CHECKOUT_SESSION_ID}`
+   That redirect is what unlocks the course the second they pay. Keep "collect customer email" on.
+5. **Developers → API keys → Create restricted key**. Name it `course-verify`, give it **Checkout Sessions: Read** only, nothing else. Copy it once; Stripe will not show it again.
+6. Send me two things: the Payment Link URL and the restricted key. I set `NEXT_PUBLIC_COURSE_CHECKOUT_URL` and `STRIPE_SECRET_KEY` in Vercel, redeploy, and the reserve form becomes a buy button.
 
-If Stripe declines or later reviews the account, the fallback is a high-risk broker (PaymentCloud is the usual name). Do not build anything on that assumption yet; most education accounts sail through.
+**What happens after a purchase, with nobody involved:** Stripe sends the buyer to the verify route, the route asks Stripe whether that checkout was paid, sets the access cookie, adds the buyer's email to the Formspree list tagged `course-purchase`, and lands them on lesson one with a welcome note. The confirmation link in their Stripe receipt unlocks any other device the same way. Refunds: Stripe dashboard, one click; the fourteen-day promise is on the page.
+
+If Stripe declines or later reviews the account, the fallback is a high-risk broker (PaymentCloud is the usual name). Most education accounts sail through.
 
 **Do not** put a vendor link, a discount code, or any Response Peptide reference anywhere on the site. That is what turns an education account into a "pseudo-pharmaceutical" account in a reviewer's eyes.
 
@@ -74,10 +77,10 @@ Send it once. Reply to every response personally. The number of reservations tha
 
 ## 6. Founder launch (both of us)
 
-The content is done, so this is gated only on Stripe:
-1. Flip `COURSE.status` to `"live"` in `lib/course.js` when the founder window closes and the price goes to $197.
-2. Email founders the code. It is in `.env.local` as `COURSE_ACCESS_CODE`. One code for all founders for now; per-person codes come with the real checkout.
-3. Collect every question they ask. Confused questions are defects in the lessons. Fix, then open to full price.
+The content is done and access is automatic on purchase:
+1. When the 100th founder buys, or whenever you decide, change the Payment Link price to $197 in Stripe and flip `COURSE.status` to `"live"` in `lib/course.js`.
+2. The founder code in `.env.local` (`COURSE_ACCESS_CODE`) is now only for people who reserved by email before checkout existed, and for hand-fixing an access problem.
+3. Collect every question buyers ask. Confused questions are defects in the lessons. Fix, then open to full price.
 
 ---
 
@@ -85,5 +88,6 @@ The content is done, so this is gated only on Stripe:
 
 - Course content: `lib/course.js` (prices, status, every lesson)
 - Access gate: `lib/course-access.js`, `app/api/course/unlock/route.js`
-- Env (Vercel, project `peptide-guide`, production): `COURSE_ACCESS_CODE`, `COURSE_COOKIE_TOKEN`, and when ready `NEXT_PUBLIC_COURSE_CHECKOUT_URL`
+- Env (Vercel, project `peptide-guide`, production): `COURSE_ACCESS_CODE`, `COURSE_COOKIE_TOKEN`; and once Stripe exists, `NEXT_PUBLIC_COURSE_CHECKOUT_URL` and `STRIPE_SECRET_KEY` (restricted, Checkout Sessions read)
+- Purchase → access: `app/api/course/verify/route.js`
 - Deploys on push to `main`. Two Vercel projects exist; the domain is on `peptide-guide`. Ignore `peptide-reference-guide`.
