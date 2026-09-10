@@ -6,6 +6,7 @@ import {
   PEPS, PEPTIDE_KEYS, PEPTIDE_SLUGS, peptideBySlug,
   HALF_LIVES, S, SITE_URL, SITE_NAME, concernUrl, peptideUrl, CONCERNS,
 } from "@/lib/data";
+import { cardForName, faqFor } from "@/lib/reference-extras";
 
 
 // Which course lesson goes deepest on this compound. Category is the default; a
@@ -50,6 +51,15 @@ export default async function PeptidePage({ params }) {
     .filter((k) => k !== p.key && PEPS[k].cat === p.cat)
     .slice(0, 4);
 
+  const card = cardForName(p.name);
+  const faq = faqFor(p);
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  };
+  const GRADE = { A: "#4ADE80", B: "#5EEAD4", C: "#FCD34D", D: "#F87171" };
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -65,6 +75,7 @@ export default async function PeptidePage({ params }) {
   return (
     <article>
       <JsonLd data={jsonLd} />
+      <JsonLd data={faqLd} />
       <Link href="/peptides" style={{ background: S.surf, border: "1px solid " + S.br, color: S.t, padding: "8px 14px", borderRadius: 8, fontFamily: S.f, fontSize: 12, fontWeight: 500, marginBottom: 20, display: "inline-flex", alignItems: "center", gap: 6 }}>
         ← All Peptides
       </Link>
@@ -78,6 +89,22 @@ export default async function PeptidePage({ params }) {
         <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 6, color: S.w }}>In Plain English</h2>
         <p style={{ fontSize: 14, lineHeight: 1.7, margin: 0 }}>{p.plain}</p>
       </Card>
+
+      {card && (
+        <Card style={{ marginBottom: 14, display: "grid", gridTemplateColumns: "auto 1fr", gap: "10px 14px", alignItems: "start" }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: GRADE[card.grade.trim()[0]] || GRADE.D, color: "#0B1120", fontWeight: 800, fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", lineHeight: 1 }}>{card.grade}</div>
+          <div>
+            <h2 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 4px" }}>At a glance</h2>
+            <p style={{ fontSize: 13, color: S.t, lineHeight: 1.5, margin: "0 0 8px" }}>{card.note} Evidence grade {card.grade} on an A-to-D scale.</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "6px 14px", fontSize: 12 }}>
+              {[["How it is taken", card.route], ["How often", card.often], ["How long", card.length], ["Tested sport", card.wada]].map(([k, v]) => (
+                <div key={k}><div style={{ fontSize: 10, letterSpacing: ".1em", fontWeight: 800, color: v === "Banned" ? S.w : S.m, marginBottom: 1 }}>{k.toUpperCase()}</div><div style={{ color: v === "Banned" ? S.w : S.d, lineHeight: 1.45 }}>{v}</div></div>
+              ))}
+            </div>
+            <p style={{ fontSize: 11, color: S.m, margin: "8px 0 0" }}>Reported practice from trials and the community, not a recommendation for anyone.</p>
+          </div>
+        </Card>
+      )}
 
       <Card style={{ marginBottom: 14 }}>
         <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 10 }}>What Researchers Have Studied It For</h2>
@@ -117,6 +144,16 @@ export default async function PeptidePage({ params }) {
           <div key={i} style={{ padding: "8px 12px", background: S.surf, borderRadius: 6, marginBottom: 4 }}>
             <div style={{ fontSize: 12, fontWeight: 500, marginBottom: 2 }}>{st.t}</div>
             <div style={{ fontSize: 10, color: S.m, fontStyle: "italic" }}>{st.j} ({st.y})</div>
+          </div>
+        ))}
+      </Card>
+
+      <Card style={{ marginBottom: 14 }}>
+        <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Common questions about {p.name}</h2>
+        {faq.map((f, i) => (
+          <div key={i} style={{ padding: "10px 0", borderTop: i ? "1px solid " + S.br : "none" }}>
+            <h3 style={{ fontSize: 13, fontWeight: 600, margin: "0 0 4px", color: S.t }}>{f.q}</h3>
+            <p style={{ fontSize: 13, color: S.d, lineHeight: 1.6, margin: 0 }}>{f.a}</p>
           </div>
         ))}
       </Card>

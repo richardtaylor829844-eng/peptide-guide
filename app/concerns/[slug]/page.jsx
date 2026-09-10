@@ -6,6 +6,7 @@ import {
   CONCERNS, CONCERN_SLUGS, concernBySlug,
   PEPS, S, SITE_URL, SITE_NAME, peptideUrl,
 } from "@/lib/data";
+import { CONCERN_INTROS } from "@/lib/reference-extras";
 
 export async function generateStaticParams() {
   return CONCERNS.map((c) => ({ slug: CONCERN_SLUGS[c.id] }));
@@ -52,6 +53,10 @@ export default async function ConcernPage({ params }) {
       <p style={{ fontSize: 14, color: S.d, marginBottom: 24 }}>
         Peptides researchers have studied for {c.sub.toLowerCase()}.
       </p>
+      {(CONCERN_INTROS[c.id] || []).map((para, i) => (
+        <p key={i} style={{ fontSize: 14, color: S.t, lineHeight: 1.75, margin: "0 0 12px", maxWidth: 720 }}>{para}</p>
+      ))}
+      <h2 style={{ fontSize: 16, fontWeight: 700, margin: "20px 0 10px" }}>The peptides studied for {c.label.toLowerCase()}</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {c.peps.map((pid) => {
           const p = PEPS[pid];
@@ -68,6 +73,10 @@ export default async function ConcernPage({ params }) {
           );
         })}
       </div>
+      <Card href="/course" style={{ marginTop: 18, background: "linear-gradient(135deg,rgba(94,234,212,.12),rgba(56,189,248,.06))", border: "1px solid rgba(94,234,212,.3)" }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: S.t, marginBottom: 2 }}>Want the whole picture, in order?</div>
+        <div style={{ fontSize: 12, color: S.d }}>The Peptide Course covers buying a real vial, mixing it, every compound above, combining them, and staying safe. Six lessons free. →</div>
+      </Card>
     </div>
   );
 }

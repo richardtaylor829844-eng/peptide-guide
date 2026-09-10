@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
   const { module: slug } = await params;
   const c = CHECKLISTS[slug];
   if (!c) return { title: "Checklist not found" };
-  return { title: `${c.title} — checklist — The Peptide Course`, robots: c.free ? undefined : { index: false } };
+  return { title: `${c.title} — checklist — The Peptide Course`, alternates: { canonical: `/course/checklists/${slug}` }, robots: c.free ? undefined : { index: false } };
 }
 
 export default async function ChecklistPage({ params }) {

@@ -31,7 +31,6 @@ export const metadata = {
     description: "Plain-English peptide research education.",
     images: ["/logo.png"],
   },
-  alternates: { canonical: "/" },
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/favicon-32.png",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/Card";
-import { CONCERNS, PEPS, S, CONCERN_SLUGS, peptideUrl, concernUrl } from "@/lib/data";
+import { CONCERNS, PEPS, S, CONCERN_SLUGS, peptideUrl, concernUrl, PEPTIDE_KEYS, STACK_KEYS, STACK_SLUGS } from "@/lib/data";
 
 export const metadata = {
   title: "Peptide Reference Guide — Plain-English Peptide Research",
@@ -67,6 +67,19 @@ export default function HomePage() {
             <div style={{ fontSize: 11, color: S.a }}>{c.peps.length} peptides studied</div>
           </Card>
         ))}
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 4px", color: S.t }}>All peptides on this site</h2>
+        <div style={{ fontSize: 11, color: S.m, marginBottom: 10 }}>Every compound has its own page: what it is, what the research shows, how it is commonly taken, common questions.</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+          {PEPTIDE_KEYS.map((k) => (
+            <Link key={k} href={peptideUrl(k)} style={{ fontSize: 12, color: S.t, background: S.surf, border: "1px solid " + S.br, padding: "6px 10px", borderRadius: 999 }}>{PEPS[k].name}</Link>
+          ))}
+          {STACK_KEYS.map((k) => (
+            <Link key={k} href={`/stacks/${STACK_SLUGS[k]}`} style={{ fontSize: 12, color: S.a, background: S.ab, border: "1px solid " + S.abr, padding: "6px 10px", borderRadius: 999 }}>{PEPS[k].name}</Link>
+          ))}
+        </div>
       </div>
 
       <Card style={{ background: "linear-gradient(135deg,rgba(239,68,68,.06),rgba(251,146,60,.06))", border: "1px solid rgba(239,68,68,.15)", marginBottom: 14 }}>

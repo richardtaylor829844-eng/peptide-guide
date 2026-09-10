@@ -6,6 +6,7 @@ import {
   PEPS, STACK_KEYS, STACK_SLUGS, stackBySlug,
   HALF_LIVES, S, SITE_URL, SITE_NAME,
 } from "@/lib/data";
+import { STACK_NOTES, cardForName } from "@/lib/reference-extras";
 
 export async function generateStaticParams() {
   return STACK_KEYS.map((k) => ({ slug: STACK_SLUGS[k] }));
@@ -55,6 +56,14 @@ export default async function StackPage({ params }) {
         <span style={{ fontSize: 11, color: S.a, background: S.ab, border: "1px solid " + S.abr, padding: "4px 10px", borderRadius: 16, fontWeight: 500 }}>{p.best}</span>
       </div>
       <p style={{ fontSize: 15, color: S.d, marginBottom: 20 }}>{p.why}</p>
+
+      {STACK_NOTES[p.key] && (
+        <Card style={{ marginBottom: 14 }}>
+          <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 6 }}>Why these are put together, and the catch</h2>
+          <p style={{ fontSize: 14, lineHeight: 1.7, margin: 0, color: S.t }}>{STACK_NOTES[p.key]}</p>
+          <p style={{ fontSize: 11, color: S.m, margin: "8px 0 0" }}>Reported practice, not a recommendation. The course covers combining peptides in its own module.</p>
+        </Card>
+      )}
 
       <Card style={{ background: S.wb, border: "1px solid " + S.wbr, marginBottom: 14 }}>
         <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 6, color: S.w }}>In Plain English</h2>

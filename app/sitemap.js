@@ -3,7 +3,9 @@ import {
 } from "@/lib/data";
 
 export default function sitemap() {
-  const now = new Date();
+  // Bump this when content actually changes. A lastmod that changes on every
+  // build is one Google learns to ignore.
+  const now = new Date("2026-09-10");
   const staticRoutes = [
     { url: SITE_URL + "/", changeFrequency: "weekly", priority: 1.0 },
     { url: SITE_URL + "/peptides", changeFrequency: "weekly", priority: 0.9 },
