@@ -7,6 +7,15 @@ import {
   HALF_LIVES, S, SITE_URL, SITE_NAME, concernUrl, peptideUrl, CONCERNS,
 } from "@/lib/data";
 
+
+// Which course lesson goes deepest on this compound. Category is the default; a
+// few keys override it because the site's category and the course's grouping differ.
+const COURSE_LESSON = {
+  cat: { Recovery: "recovery-and-repair", "Growth Hormone": "growth-hormone-axis", Metabolic: "metabolic", Longevity: "longevity-and-mitochondria", Cognitive: "cognition-and-mood", "Sexual Health": "sexual-function", Immune: "immune", Skin: "tanning" },
+  key: { ghkcu: "skin-and-hair", ll37: "immune", wolverine: "recovery-and-repair", glow: "skin-and-hair", klow: "skin-and-hair", cjcipa: "growth-hormone-axis", tesamipa: "growth-hormone-axis", mt1: "tanning", mt2: "tanning" },
+};
+const courseLessonFor = (p) => COURSE_LESSON.key[p.key] || COURSE_LESSON.cat[p.cat] || "how-to-read-these-pages";
+
 export async function generateStaticParams() {
   return PEPTIDE_KEYS.map((k) => ({ slug: PEPTIDE_SLUGS[k] }));
 }
@@ -112,6 +121,14 @@ export default async function PeptidePage({ params }) {
         ))}
       </Card>
 
+      <Card href={`/course/the-compounds/${courseLessonFor(p)}`} style={{ background: "linear-gradient(135deg,rgba(94,234,212,.12),rgba(56,189,248,.06))", border: "1px solid rgba(94,234,212,.3)", marginBottom: 14, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 26, flexShrink: 0 }}>🎓</div>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: S.t, marginBottom: 2 }}>Go deeper on {p.name} in The Peptide Course</div>
+          <div style={{ fontSize: 12, color: S.d, lineHeight: 1.5 }}>How people commonly use it, what they notice, side effects, who stays away, and how good the evidence really is. Plus how to buy a vial that is actually {p.name}, and how to mix it. Six lessons are free.</div>
+        </div>
+        <div style={{ fontSize: 12, color: S.a, fontWeight: 600, whiteSpace: "nowrap" }}>Open the lesson →</div>
+      </Card>
       {related.length > 0 && (
         <div style={{ marginBottom: 14 }}>
           <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: S.t }}>You might also look at</h2>

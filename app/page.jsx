@@ -14,6 +14,14 @@ const FEATURED_KEYS = ["retatrutide", "wolverine", "motsc", "nad", "glow"];
 export default function HomePage() {
   return (
     <div>
+      <Card href="/course" style={{ background: "linear-gradient(135deg,rgba(94,234,212,.12),rgba(56,189,248,.06))", border: "1px solid rgba(94,234,212,.3)", marginBottom: 10, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 28, flexShrink: 0 }}>🎓</div>
+        <div style={{ flex: 1, minWidth: 180 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: S.t, marginBottom: 1 }}>The Peptide Course: how to buy, mix and use them, from zero</div>
+          <div style={{ fontSize: 12, color: S.d }}>37 short lessons, diagrams and audio. Six lessons free, including how to read a lab report. <s style={{ color: S.m }}>$79</s> <strong style={{ color: S.a }}>$29</strong> for the first 100.</div>
+        </div>
+        <div style={{ fontSize: 12, color: S.a, fontWeight: 600, whiteSpace: "nowrap" }}>Start free →</div>
+      </Card>
       <Card href="/intro" style={{ background: "linear-gradient(135deg,rgba(99,102,241,.10),rgba(56,189,248,.08))", border: "1px solid rgba(99,102,241,.25)", marginBottom: 14, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", padding: "14px 18px" }}>
         <div style={{ fontSize: 28, flexShrink: 0 }}>📖</div>
         <div style={{ flex: 1, minWidth: 180 }}>
