@@ -5,7 +5,7 @@ Written 8 Sept 2026. Course page: https://peptidereferenceguide.com/course
 
 ---
 
-## 1. Stripe: the only thing between you and a sale (you, ~30 minutes)
+## 1. Stripe: DONE 10 Sept. Account live, $29 Payment Link live, restricted key installed, purchase unlocks the course automatically.
 
 Everything else is built. I cannot create the account. Do this once:
 
