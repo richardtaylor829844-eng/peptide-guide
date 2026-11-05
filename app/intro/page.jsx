@@ -48,18 +48,18 @@ export default function IntroPage() {
         <p style={{ fontSize: 14, color: S.d, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>Short version: peptides work with your body's own signaling, rather than forcing it.</p>
       </Card>
 
-      <Card style={{ background: "rgba(252,211,77,.05)", border: "1px solid " + S.wbr, marginBottom: 14 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 10px", color: S.w }}>What to know before going further</h2>
-        <p style={{ fontSize: 13, color: S.t, lineHeight: 1.7, margin: "0 0 10px" }}>Peptide research is exciting, but here's the honest reality:</p>
+      <Card style={{ background: "rgba(94,234,212,.04)", border: "1px solid " + S.abr, marginBottom: 14 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, margin: "0 0 10px", color: S.a }}>A few things worth knowing</h2>
+        <p style={{ fontSize: 13, color: S.t, lineHeight: 1.7, margin: "0 0 10px" }}>Four quick orientation points to help you get the most out of the research on this site:</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {[
-            "Most peptides aren't FDA-approved for human use. That doesn't mean they're unsafe — it means the FDA hasn't finished evaluating them. Some have decades of research, some have almost none.",
-            "Quality varies enormously between suppliers. A 'BPC-157' vial from one vendor can be 99% pure with verified testing, and from another vendor it can contain almost none of the compound on the label.",
-            "Long-term safety data is limited for most peptides. Short-term studies look promising; we don't always know what 20 years of use looks like.",
-            "Nothing on this site is medical advice. Peptides can interact with medications, affect hormones, and cause side effects. If you're considering personal use, work with a licensed clinician who can evaluate your specific situation.",
+            "Peptide research is one of the most actively studied areas in medicine right now. A handful (like Semaglutide and Tesamorelin) have full FDA approval. Many others are still in research and are backed by years of published studies you can read yourself.",
+            "Supplier quality is the one variable you fully control. Research-grade labs that run independent third-party testing and publish Certificates of Analysis are easy to identify once you know what to look for. The home page has a checklist you can use.",
+            "The science keeps getting better. Each peptide page here shows the published studies behind it and the year they came out, so you can see for yourself how active and current the research is.",
+            "This site is a great starting point. For personal decisions, a licensed clinician who knows your health history is the ideal next step: they can connect the research you've learned about here to your specific situation.",
           ].map((item, i) => (
             <div key={i} style={{ fontSize: 13, color: S.d, lineHeight: 1.6, display: "flex", gap: 8 }}>
-              <span style={{ color: S.w, flexShrink: 0, fontWeight: 700 }}>•</span>
+              <span style={{ color: S.a, flexShrink: 0, fontWeight: 700 }}>✓</span>
               <span>{item}</span>
             </div>
           ))}
