@@ -6,7 +6,7 @@ import {
   PEPS, PEPTIDE_KEYS, PEPTIDE_SLUGS, peptideBySlug,
   HALF_LIVES, S, SITE_URL, SITE_NAME, concernUrl, peptideUrl, CONCERNS,
 } from "@/lib/data";
-import { cardForName, faqFor } from "@/lib/reference-extras";
+import { cardForName, faqFor, CARD_NOTE_OVERRIDES, DISCLAIMER_OVERRIDES, COURSE_CALLOUT_OVERRIDES } from "@/lib/reference-extras";
 
 
 // Which course lesson goes deepest on this compound. Category is the default; a
@@ -51,8 +51,13 @@ export default async function PeptidePage({ params }) {
     .filter((k) => k !== p.key && PEPS[k].cat === p.cat)
     .slice(0, 4);
 
-  const card = cardForName(p.name);
+  const rawCard = cardForName(p.name);
+  const card = rawCard && CARD_NOTE_OVERRIDES[p.key]
+    ? { ...rawCard, note: CARD_NOTE_OVERRIDES[p.key] }
+    : rawCard;
   const faq = faqFor(p);
+  const disclaimer = DISCLAIMER_OVERRIDES[p.key];
+  const courseCallout = COURSE_CALLOUT_OVERRIDES[p.key];
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -162,7 +167,7 @@ export default async function PeptidePage({ params }) {
         <div style={{ fontSize: 26, flexShrink: 0 }}>🎓</div>
         <div style={{ flex: 1, minWidth: 200 }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: S.t, marginBottom: 2 }}>Go deeper on {p.name} in The Peptide Course</div>
-          <div style={{ fontSize: 12, color: S.d, lineHeight: 1.5 }}>How people commonly use it, what they notice, side effects, who stays away, and how good the evidence really is. Plus how to buy a vial that is actually {p.name}, and how to mix it. Six lessons are free.</div>
+          <div style={{ fontSize: 12, color: S.d, lineHeight: 1.5 }}>{courseCallout || `How people commonly use it, what they notice, side effects, who stays away, and how good the evidence really is. Plus how to buy a vial that is actually ${p.name}, and how to mix it. Six lessons are free.`}</div>
         </div>
         <div style={{ fontSize: 12, color: S.a, fontWeight: 600, whiteSpace: "nowrap" }}>Open the lesson →</div>
       </Card>
@@ -184,10 +189,17 @@ export default async function PeptidePage({ params }) {
         </div>
       )}
 
-      <div style={{ marginTop: 24, padding: "12px 14px", borderRadius: 8, background: "rgba(250,200,50,.05)", border: "1px solid " + S.wbr, fontSize: 11, color: S.d, lineHeight: 1.5 }}>
-        <strong style={{ color: S.w }}>Research-use disclaimer —</strong>{" "}
-        {p.name} is referenced here for research education only. It is not approved by the FDA for human consumption, treatment, cure, or diagnosis of any condition. Nothing on this page is medical advice. Consult a licensed physician for anything related to your health.
-      </div>
+      {disclaimer ? (
+        <div style={{ marginTop: 24, padding: "12px 14px", borderRadius: 8, background: "rgba(94,234,212,.04)", border: "1px solid " + S.abr, fontSize: 11, color: S.d, lineHeight: 1.5 }}>
+          <strong style={{ color: S.a }}>A quick note —</strong>{" "}
+          {disclaimer}
+        </div>
+      ) : (
+        <div style={{ marginTop: 24, padding: "12px 14px", borderRadius: 8, background: "rgba(250,200,50,.05)", border: "1px solid " + S.wbr, fontSize: 11, color: S.d, lineHeight: 1.5 }}>
+          <strong style={{ color: S.w }}>Research-use disclaimer —</strong>{" "}
+          {p.name} is referenced here for research education only. It is not approved by the FDA for human consumption, treatment, cure, or diagnosis of any condition. Nothing on this page is medical advice. Consult a licensed physician for anything related to your health.
+        </div>
+      )}
     </article>
   );
 }
